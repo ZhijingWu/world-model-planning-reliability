@@ -1,0 +1,147 @@
+\documentclass[10pt]{article}
+\input{assets/note-style.tex}
+\newcommand{\protocolitem}[2]{\noindent
+  \makebox[6mm][l]{\color{Teal}\bfseries #1}%
+  \begin{minipage}[t]{\dimexpr\linewidth-6mm\relax}#2\end{minipage}\par\vspace{4pt}}
+\begin{document}
+\bodyfont
+\eyebrow{INDEPENDENT RESEARCH TECHNICAL NOTE}
+\vspace{4pt}
+{\fontsize{25}{28}\selectfont\bfseries\color{Navy}
+Correct outputs,\\contaminated search\par}
+\vspace{5pt}
+{\fontsize{12}{15}\selectfont\color{Muted}
+A state-ownership contract for executable world models\par}
+\vspace{6pt}
+{\fontsize{10.7}{14}\selectfont
+\textbf{Zhijing Wu}\quad\textcolor{Muted}{Sichuan University}\hfill
+\href{https://zhijingwu.github.io/}{zhijingwu.github.io}\par}
+\vspace{5pt}
+{\color{Rule}\rule{\linewidth}{.7pt}}\par
+\vspace{3pt}
+{\fontsize{13.1}{17}\selectfont\bfseries\color{Navy}
+Can a planner trust a model call that changes\\
+the parent state of its hypothetical branches?\par}
+\vspace{2pt}
+I identified a state-ownership failure in released executable world models:
+a call can return the same state values as a full-copy reference while
+modifying nested objects owned by its caller. Sibling branches then start
+from different parents, making search sensitive to rollout order.
+
+\vspace{3pt}
+\input{figures/hidden-failure.tex}\par
+\figcaption{Figure 1.}{Illustrative deterministic program. Action A's return matches
+the full-copy reference in both panels; only the isolated parent remains reusable by B.}
+
+\sectionline{01}{The mechanism I implemented: WCTR}
+I implemented \textbf{Witness-Compiled Transactional Rollouts} to learn mutation
+paths from executions, selectively fork their alias ancestors, and mark new
+allocations private. Unexpected writes are journaled; output grafting preserves
+the returned successor before parent rollback.\par
+\vspace{2pt}
+\input{figures/wctr-mechanism.tex}\par
+\figcaption{Figure 2.}{Witnesses guide selective copying; runtime guards handle
+unseen writes. Alias preservation and allocation tracking are part of the implementation.}
+
+\vspace{5pt}
+\colorbox{TealPale}{\begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+  \centering
+  {\fontsize{10}{13}\selectfont\bfseries\color{Navy}Operational target: an unchanged parent and full-copy-equivalent values\par}
+  \vspace{4pt}
+  $\displaystyle b_{\mathrm{after}}\equiv b_{\mathrm{before}},
+  \qquad b'_a\equiv F\!\left(\operatorname{deepcopy}(b),a\right).$
+\end{minipage}}\par
+\vspace{3pt}
+Equivalence is with the \textbf{same program}, not ground-truth prediction.
+Checks cover instrumented dict, list, set and tuple operations; they establish
+neither arbitrary-Python isolation nor theoretical novelty.
+
+\vspace{5pt}
+\colorbox{Pale}{\begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+  \begin{minipage}[t]{.46\linewidth}
+    {\fontsize{19}{22}\selectfont\bfseries\color{Teal}59 / 3,942\par}
+    {\fontsize{10.2}{13}\selectfont\textbf{Discovery in BabyAI}\par}
+    {\fontsize{10}{13}\selectfont input mutations in recorded predictions\par}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{.51\linewidth}
+    {\fontsize{19}{22}\selectfont\bfseries\color{Navy}0 / 33,692\par}
+    {\fontsize{10.2}{13}\selectfont\textbf{Checked WCTR transitions}\par}
+    {\fontsize{10}{13}\selectfont parent/output mismatches in the frozen live study\par}
+  \end{minipage}\par
+  \vspace{4pt}
+  {\fontsize{9.6}{12.5}\selectfont\color{Muted}
+  Finite workload checks; other protected controls also had zero parent/output mismatches.\par}
+\end{minipage}}\par
+
+\newpage
+\eyebrow{SELECTED EVIDENCE / PROPOSED RESEARCH DIRECTION}
+\vspace{4pt}
+{\fontsize{22}{26}\selectfont\bfseries\color{Navy}
+From branch isolation to decision trust\par}
+\vspace{4pt}
+I used controlled comparisons to separate an implementation's branch behavior,
+bounded planning performance, and actual interactive task completion.
+
+\sectionline{02}{A controlled planning result, with its boundary}
+\input{figures/selected-webshop.tex}\par
+{\fontsize{10}{13.2}\selectfont
+\textbf{\color{Navy}Exact setting.} 80 generated structured-state goals, three timing
+repeats, shared BFS (depth at most six; at most 4,096 expansions), and a
+\textbf{soft 10\,ms planning deadline excluding setup and calibration}.
+Completion was checked by independent full-copy execution of the released
+program. The interval resamples source items in the frozen paired analysis.\par}
+\vspace{3pt}
+This is \textbf{not an improvement in native WebShop success}.
+Controlled outcomes were mixed: Wordle declined from 54.2\% to 45.0\%
+(\textcolor{Warm}{\textbf{-9.2 pp}}) under the same protocol.
+
+\vspace{5pt}
+\colorbox{Pale}{\begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+  \textbf{\color{Navy}Native-task takeaway.}
+  Full Copy, Top-Field, Journal Only and WCTR all completed
+  \textbf{6/12 WebShop goals} and \textbf{43/100 Wordle seed tasks}.
+  There was no incremental live-success benefit. With lifetime setup,
+  verification and profiling charged, simpler protected controls were cheaper overall on
+  this host; no general efficiency or superiority claim follows.\par
+  \vspace{3pt}
+  {\fontsize{9.6}{12.5}\selectfont\color{Muted}
+  Native scope: small 1k-product WebShop catalog; released 40-word stochastic
+  Wordle. The complete frozen archive remains authoritative.\par}
+\end{minipage}}\par
+
+\sectionline{03}{A small next experiment}
+{\fontsize{16.1}{20}\selectfont\bfseries\color{Navy}
+Which simulator errors can change the action a planner chooses?\par}
+\vspace{3pt}
+{\fontsize{10.2}{13}\selectfont\color{Teal}\textbf{Proposed future work; not executed.}\par}
+\vspace{4pt}
+\protocolitem{1}{\textbf{Fix the unit.} Snapshot one belief/model state.
+Fix three candidate actions, a leaf-value rule and canonical tie-breaking.}
+\protocolitem{2}{\textbf{Vary only root order.} Reset before each of six root
+permutations; keep child order fixed. Evaluate depth two with 12 expansions
+(three roots plus nine children), without early stopping; record actual CPU/setup.}
+\protocolitem{3}{\textbf{Pair the randomness.} Compare unprotected execution,
+Full Copy and WCTR. Begin with a deterministic case. For controllable stochastic
+programs, replay five predeclared random tapes keyed to action history across
+all methods and orders.}
+\protocolitem{4}{\textbf{Measure the decision effect.} Record pairwise ranking
+inversions, chosen-action flips versus Full Copy, and parent-state fingerprints.
+Within-tape order effects with parent mutation and a stable reference implicate contamination.}
+\protocolitem{5}{\textbf{Separate stochasticity.} Use Full Copy's across-tape
+variation as the stochastic control. If its ranking changes with order under
+the same tape, flag uncontrolled randomness or side effects rather than attribute
+the change to state contamination.}
+
+\vspace{3pt}
+RAP and LLM Reasoners [1,2] motivate studying the model/search interface.
+I would like to connect execution checks to decision relevance [3], so finite
+verification effort targets simulator errors that could change an action.
+
+\vspace{4pt}
+{\smallnote
+\textbf{\color{Navy}Selected connections}\quad
+[1] Hao et al.\ \href{https://arxiv.org/abs/2305.14992v2}{RAP}. EMNLP 2023.\quad
+[2] Hao et al.\ \href{https://arxiv.org/abs/2404.05221v2}{LLM Reasoners}. 2024.\par
+[3] Farahmand, Barreto \& Nikovski.
+\href{https://proceedings.mlr.press/v54/farahmand17a.html}{Value-Aware Loss Function for Model-based Reinforcement Learning}. AISTATS 2017.\par}
+\end{document}

@@ -1,0 +1,22 @@
+% Original vector mechanism diagram; exact implementation remains in Stage 2.
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \path[use as bounding box] (0,0) rectangle (17.6,2.5);
+  \foreach \x/\n in {1.65/1,5.05/2,8.45/3,11.85/4,15.25/5}{
+    \node[circle,fill=Teal,text=white,minimum size=4.7mm,inner sep=0pt,
+      font=\fontsize{9.3}{11}\selectfont\bfseries] at (\x,2.18) {\n};
+  }
+  \node[smallbox,minimum height=17.5mm] (w) at (1.65,1.05)
+    {\textbf{\color{Navy}Witness writes}\\observe mutation\\paths};
+  \node[smallbox,minimum height=17.5mm] (f) at (5.05,1.05)
+    {\textbf{\color{Navy}Compile frontier}\\select objects and\\alias ancestors};
+  \node[smallbox,minimum height=17.5mm] (fork) at (8.45,1.05)
+    {\textbf{\color{Navy}Fork + track}\\preserve aliases;\\private allocations};
+  \node[smallbox,minimum height=17.5mm] (g) at (11.85,1.05)
+    {\textbf{\color{Navy}Guard execution}\\journal unseen\\writes};
+  \node[smallbox,minimum height=17.5mm,draw=Teal!60,fill=TealPale] (r) at (15.25,1.05)
+    {\textbf{\color{Navy}Preserve output}\\graft, then restore\\the parent};
+  \draw[tealflow] (w.east)--(f.west);
+  \draw[tealflow] (f.east)--(fork.west);
+  \draw[tealflow] (fork.east)--(g.west);
+  \draw[tealflow] (g.east)--(r.west);
+\end{tikzpicture}

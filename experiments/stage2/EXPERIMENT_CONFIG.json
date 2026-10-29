@@ -1,0 +1,23 @@
+{
+  "stage": 2,
+  "candidate": "Witness-Compiled Transactional Rollouts (WCTR)",
+  "primary_metric": "Fraction of program-planning tasks completed by the returned plan under independent pure source execution, with a 10 ms planning deadline and depth six.",
+  "metric_scope": "Source-program semantics, not actual AgentGym environment return.",
+  "development_programs": ["babyai", "maze", "textcraft"],
+  "final_programs": ["babyai", "alfworld", "sciworld", "webshop", "wordle"],
+  "development_seed": 83,
+  "final_seed": 20261028,
+  "dev_tasks_per_program": 24,
+  "final_tasks_per_program": 80,
+  "calibration_calls": 32,
+  "contract_check_calls": 300,
+  "deadline_ms": 10.0,
+  "node_cap": 4096,
+  "repeats": 3,
+  "max_algorithm_revisions": 1,
+  "methods": ["raw", "deepcopy", "memo_deepcopy", "topfield", "journal", "wctr"],
+  "key_ablation": "journal: remove compiled mutation frontier, retain transactional output graft and rollback",
+  "strong_controls": ["stdlib deepcopy before each model call", "observed action-scoped top-field isolation with the same runtime write barrier"],
+  "test_access_policy": "Independent source programs and test trajectories are acquired after the method/protocol freeze; train-only calibration is allowed for every program.",
+  "failure_rule": "No competitive claim if the compiled frontier does not improve primary task completion vs both strong controls and the journal ablation, if contract correctness fails, or if novelty is only ordinary selective copying."
+}

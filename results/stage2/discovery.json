@@ -1,0 +1,38 @@
+{
+  "maze": {
+    "transitions": 535,
+    "wrong_current_position_parse": 60,
+    "next_position_evaluable": 487,
+    "next_position_error": 54,
+    "next_local_walls_error": 316,
+    "initial_roots": 60,
+    "greedy_root_changed_by_interface_fix": 60,
+    "trajectories": 60,
+    "predict_mean_microseconds": 1.4039252053866833,
+    "deepcopy_mean_microseconds": 11.142616799206223
+  },
+  "textcraft": {
+    "transitions": 8523,
+    "outcome_evaluable": 8521,
+    "trajectories": 1134,
+    "nonempty_inventory_observations": 206,
+    "nonempty_inventory_parse_empty": 206,
+    "outcome_error": 1144,
+    "outcome_error_not_found": 221,
+    "false_predicted_success": 460,
+    "outcome_error_invalid_recipe": 284,
+    "outcome_error_crafted": 622,
+    "outcome_error_not_enough_items": 17,
+    "predict_mean_microseconds": 10.208095742177122,
+    "deepcopy_mean_microseconds": 63.81303531648394
+  },
+  "babyai": {
+    "transitions": 3942,
+    "trajectories": 540,
+    "predict_mutates_input": 59,
+    "predict_mean_microseconds": 6.272881780322097,
+    "deepcopy_mean_microseconds": 33.419913749290515
+  },
+  "seconds": 2.0057716000001165,
+  "disclosure": "Source replay, not an online planning evaluation. Root-change measure is a specified greedy Manhattan diagnostic. No counterfactual true returns are inferred from logs."
+}

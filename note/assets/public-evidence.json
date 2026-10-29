@@ -1,0 +1,24 @@
+{
+  "authority": "Frozen local Stage 2 and Stage 3 archives; selected public projections in results/",
+  "pdf_sha256": "4d29fead79bf244b57198abc3d9c04af1f338a85d546c5b0dbd1d9a19e4479d1",
+  "core_sha256": "4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612",
+  "discovery": {
+    "input_mutations": 59,
+    "recorded_predictions": 3942
+  },
+  "wctr_live_checked_transitions": 33692,
+  "wctr_live_contract_failures": 0,
+  "controlled_webshop_difference_pp": 17.5,
+  "controlled_wordle_difference_pp": -9.166666666666668,
+  "native_success_all_four": {
+    "webshop": [
+      6,
+      12
+    ],
+    "wordle": [
+      43,
+      100
+    ]
+  },
+  "future_experiment": "proposed; not executed"
+}

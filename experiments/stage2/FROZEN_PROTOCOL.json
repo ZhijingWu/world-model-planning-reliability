@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-28",
+  "algorithm_revisions": 1,
+  "revision_reason": "Development showed eager input graph inspection erased copying savings; revision adds private-allocation provenance and lazy graph materialization. Added standard memoization control. A list augmented-assignment correctness test was fixed before freeze.",
+  "primary_metric_unchanged": true,
+  "source_hashes": {
+    "benchmark.py": "5ec9782621f67befe3b24d24a7ae2df8053ec24c379f508ad246227a37a149b2",
+    "discover.py": "7f23ad6270f3ccf73667406a045ed9385d16ede434a855f6a63a84300ea81d21",
+    "isolation.py": "4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612",
+    "test_isolation.py": "ed6da10772be7db2d7f3d376650f5376b0ed9f661163e1f612a83073a5e4a3b0"
+  },
+  "config_sha256": "ab0349bdde5610de2417da77120b822801a71caa706144557c785b1b335c178d",
+  "final_sources_not_yet_acquired": [
+    "alfworld",
+    "sciworld",
+    "webshop",
+    "wordle",
+    "all final test splits"
+  ]
+}

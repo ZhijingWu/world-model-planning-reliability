@@ -1,0 +1,324 @@
+[
+  {
+    "origin": "stage2/IMPLEMENTATION/isolation.py",
+    "original_sha256": "4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612",
+    "public_path": "src/wctr/isolation.py",
+    "public_sha256": "4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage2/IMPLEMENTATION/test_isolation.py",
+    "original_sha256": "ed6da10772be7db2d7f3d376650f5376b0ed9f661163e1f612a83073a5e4a3b0",
+    "public_path": "tests/test_isolation.py",
+    "public_sha256": "00cd1467c033cf542bce63ebb21c32bd5b2e269156e34a4e14c4394e1e695f40",
+    "transformation": "packaging-only: imports, paths, run isolation or public integrity checks; see docs/PACKAGING.md"
+  },
+  {
+    "origin": "stage3/SOURCES/PatchWorld/examples/generated_world_models/babyai_benchmark_world_model.py",
+    "original_sha256": "15f5d6d818afbf542452e1c5cffd868fad6e523b1d5c1975d2f1072ab28e1c20",
+    "public_path": "third_party/PatchWorld/examples/generated_world_models/babyai_benchmark_world_model.py",
+    "public_sha256": "15f5d6d818afbf542452e1c5cffd868fad6e523b1d5c1975d2f1072ab28e1c20",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage3/SOURCES/PatchWorld/examples/generated_world_models/maze_benchmark_world_model.py",
+    "original_sha256": "c02b1f33fb224cd112cdd0e647935be84fc848e3bcb8242a57ece24effd86e57",
+    "public_path": "third_party/PatchWorld/examples/generated_world_models/maze_benchmark_world_model.py",
+    "public_sha256": "c02b1f33fb224cd112cdd0e647935be84fc848e3bcb8242a57ece24effd86e57",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage3/SOURCES/PatchWorld/examples/generated_world_models/textcraft_benchmark_world_model.py",
+    "original_sha256": "2665ea97d298634a36f95c09ab7b0f5b9873febe60e660ee51e0b0be89659797",
+    "public_path": "third_party/PatchWorld/examples/generated_world_models/textcraft_benchmark_world_model.py",
+    "public_sha256": "2665ea97d298634a36f95c09ab7b0f5b9873febe60e660ee51e0b0be89659797",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage3/SOURCES/PatchWorld/examples/generated_world_models/alfworld_benchmark_world_model.py",
+    "original_sha256": "6f04764880329c0b8f3f75e0748d8f36c9e78786aff078a4fc8197e120ddd0d2",
+    "public_path": "third_party/PatchWorld/examples/generated_world_models/alfworld_benchmark_world_model.py",
+    "public_sha256": "6f04764880329c0b8f3f75e0748d8f36c9e78786aff078a4fc8197e120ddd0d2",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage3/SOURCES/PatchWorld/examples/generated_world_models/sciworld_benchmark_world_model.py",
+    "original_sha256": "9d7c24064d030d15d68c833b031e8a24c5b897a177562e1ee0642c464cfcac72",
+    "public_path": "third_party/PatchWorld/examples/generated_world_models/sciworld_benchmark_world_model.py",
+    "public_sha256": "9d7c24064d030d15d68c833b031e8a24c5b897a177562e1ee0642c464cfcac72",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage3/SOURCES/PatchWorld/examples/generated_world_models/webshop_benchmark_world_model.py",
+    "original_sha256": "c61e59a68a34074fc7f6952d830b1056cc9e8166e3909baaafcd117327f1b376",
+    "public_path": "third_party/PatchWorld/examples/generated_world_models/webshop_benchmark_world_model.py",
+    "public_sha256": "c61e59a68a34074fc7f6952d830b1056cc9e8166e3909baaafcd117327f1b376",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage3/SOURCES/PatchWorld/examples/generated_world_models/wordle_benchmark_world_model.py",
+    "original_sha256": "5a42da43d728b5358fc2d50934b011884cfa059e1cc0be4f5e90c8efeb3ef0ef",
+    "public_path": "third_party/PatchWorld/examples/generated_world_models/wordle_benchmark_world_model.py",
+    "public_sha256": "5a42da43d728b5358fc2d50934b011884cfa059e1cc0be4f5e90c8efeb3ef0ef",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage3/SOURCES/PatchWorld/patchworld/worldmodel_base.py",
+    "original_sha256": "a888d27c3577fb61cf730be2a22c2b77910c2d3a776b73e1ee07fd2cf369c6d2",
+    "public_path": "third_party/PatchWorld/patchworld/worldmodel_base.py",
+    "public_sha256": "a888d27c3577fb61cf730be2a22c2b77910c2d3a776b73e1ee07fd2cf369c6d2",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage3/SOURCES/PatchWorld/LICENSE",
+    "original_sha256": "7fa7090ed12255a8cddf5d4bdbcd4df5e44a7867c7d519ccd9c359810f2fea9d",
+    "public_path": "third_party/PatchWorld/LICENSE",
+    "public_sha256": "7fa7090ed12255a8cddf5d4bdbcd4df5e44a7867c7d519ccd9c359810f2fea9d",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage2/RESULTS/final_summary.csv",
+    "original_sha256": "918ec35aaa9d471d4fdcf626a95976acc36b0b2799d32c52ef1f75afa383e353",
+    "public_path": "results/stage2/final_summary.csv",
+    "public_sha256": "918ec35aaa9d471d4fdcf626a95976acc36b0b2799d32c52ef1f75afa383e353",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage2/RESULTS/final_contracts.csv",
+    "original_sha256": "c30f51aef2d2f1526bec5661e73701f2ab7156406a58a195dc1164f13245038b",
+    "public_path": "results/stage2/final_contracts.csv",
+    "public_sha256": "c30f51aef2d2f1526bec5661e73701f2ab7156406a58a195dc1164f13245038b",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage2/RESULTS/paired_success.csv",
+    "original_sha256": "2f70a54c47956cbf0c953c21dd15167977021aafc7c3153d5244e236d3ddf71f",
+    "public_path": "results/stage2/paired_success.csv",
+    "public_sha256": "2f70a54c47956cbf0c953c21dd15167977021aafc7c3153d5244e236d3ddf71f",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage2/RESULTS/final_planning.csv",
+    "original_sha256": "af5102115817be0cd8085500a671211730c790c09a8c30616507bc739041278c",
+    "public_path": "results/stage2/final_planning.csv",
+    "public_sha256": "804541d198f00a8216adbcba397675e4b08988940cddf9c04546649be884f567",
+    "transformation": "column projection: omitted path and goal_walk; all 7,200 rows retained"
+  },
+  {
+    "origin": "stage2/RESULTS/discovery.json",
+    "original_sha256": "d3920f4b7a102bf7df1b90179fa5ac7bc3c07fb3f5baca74706f1f752b8216a5",
+    "public_path": "results/stage2/discovery.json",
+    "public_sha256": "0ae6b1696489c592ab9b51235b5f8424d9b3424960c29a40e716020a333bff5a",
+    "transformation": "JSON formatting only"
+  },
+  {
+    "origin": "stage3/RESULTS/webshop_deepcopy_tasks.json",
+    "original_sha256": "5dc52f25a35e7c3d55346591086dfc583dc98b55f0e01bc819face3375e8d360",
+    "public_path": "results/stage3/webshop_deepcopy_tasks.json",
+    "public_sha256": "f0ac8170374dd331d424c3bc87eb53326635d115f92c7a41922e6e2d021f5550",
+    "transformation": "removed initial_observation and actions; added SHA-256 of canonical action sequence"
+  },
+  {
+    "origin": "stage3/RESULTS/webshop_topfield_tasks.json",
+    "original_sha256": "7fed2fe0d5f2ff634f04f891655109987b5211615c6c934ec8eb13001af24f8f",
+    "public_path": "results/stage3/webshop_topfield_tasks.json",
+    "public_sha256": "bdae001f9be086d507f364bd72f14d6c0f9b5440f472566953aebf6dade492c2",
+    "transformation": "removed initial_observation and actions; added SHA-256 of canonical action sequence"
+  },
+  {
+    "origin": "stage3/RESULTS/webshop_journal_tasks.json",
+    "original_sha256": "b8054ced6337e10b2f9d93c21aad78416808bfec0e3718d807f654aa3c55e932",
+    "public_path": "results/stage3/webshop_journal_tasks.json",
+    "public_sha256": "956649975a30432709949473a6eb9dca9733a7e72d12db72b5e8679cd2c97ed8",
+    "transformation": "removed initial_observation and actions; added SHA-256 of canonical action sequence"
+  },
+  {
+    "origin": "stage3/RESULTS/webshop_wctr_tasks.json",
+    "original_sha256": "fba9f4c2a82a61898f2ce04deaca7ee9614a62a8d1781a332b8ed8ce5863ae83",
+    "public_path": "results/stage3/webshop_wctr_tasks.json",
+    "public_sha256": "934a1efbeb7d105b15b06132e20d3401c92ed33fb8000b02d9811c241915cd16",
+    "transformation": "removed initial_observation and actions; added SHA-256 of canonical action sequence"
+  },
+  {
+    "origin": "stage3/RESULTS/wordle_deepcopy_tasks.json",
+    "original_sha256": "f2ba52cef8076058e02619554402eb828ba18a3af8fefd07076df17f0e54f982",
+    "public_path": "results/stage3/wordle_deepcopy_tasks.json",
+    "public_sha256": "89bf070f8a727f63e498b1065a7f05b4f62078d38f89733b23bdb6da0b03f62d",
+    "transformation": "removed initial_observation and actions; added SHA-256 of canonical action sequence"
+  },
+  {
+    "origin": "stage3/RESULTS/wordle_topfield_tasks.json",
+    "original_sha256": "84ef5c6c1a84cca786596ae7fad909b067fda67017d60ed794f385bb968f74c0",
+    "public_path": "results/stage3/wordle_topfield_tasks.json",
+    "public_sha256": "5b880df5363b660ea4b5ba4cc63deef26e81eb911f5690baeed5061e1bb709fa",
+    "transformation": "removed initial_observation and actions; added SHA-256 of canonical action sequence"
+  },
+  {
+    "origin": "stage3/RESULTS/wordle_journal_tasks.json",
+    "original_sha256": "6b25562697496a086985a3d3630f7e7d8cdb7246eb96e5968e0726f4f9496051",
+    "public_path": "results/stage3/wordle_journal_tasks.json",
+    "public_sha256": "d0a67bca1e635df4119f6742e055b48e4271811fa43f273d829139c99ab87702",
+    "transformation": "removed initial_observation and actions; added SHA-256 of canonical action sequence"
+  },
+  {
+    "origin": "stage3/RESULTS/wordle_wctr_tasks.json",
+    "original_sha256": "da28773245e21f65f0917f6825ff2055f68057d608dc1707d9c0acaa1d13e47e",
+    "public_path": "results/stage3/wordle_wctr_tasks.json",
+    "public_sha256": "b0c123ca70ea05714172f7411be8f0f03193122a050b8fc12f8c0a27e783a4e7",
+    "transformation": "removed initial_observation and actions; added SHA-256 of canonical action sequence"
+  },
+  {
+    "origin": "stage3/RESULTS/analysis.json",
+    "original_sha256": "6388b02f7c0ea3bcd0e623fc5f2e64a6a9c3a77d48c13e71ea8155394e462c40",
+    "public_path": "results/stage3/analysis.json",
+    "public_sha256": "6388b02f7c0ea3bcd0e623fc5f2e64a6a9c3a77d48c13e71ea8155394e462c40",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage3/RESULTS/complete_process_costs.json",
+    "original_sha256": "16fa3336d44ef7386cdb23ff90db5eafe4ffaff3190bf16eee6cdf31e0b55226",
+    "public_path": "results/stage3/complete_process_costs.json",
+    "public_sha256": "0b8b5eb618d8c0028d58f187e724ed27aba02b0f55708dd12565a8fd1513191d",
+    "transformation": "removed machine-specific command argument arrays"
+  },
+  {
+    "origin": "stage2/EXPERIMENT_CONFIG.json",
+    "original_sha256": "ab0349bdde5610de2417da77120b822801a71caa706144557c785b1b335c178d",
+    "public_path": "experiments/stage2/EXPERIMENT_CONFIG.json",
+    "public_sha256": "ab0349bdde5610de2417da77120b822801a71caa706144557c785b1b335c178d",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage2/FROZEN_PROTOCOL.json",
+    "original_sha256": "f21cceb38ec5fcf6fcf55a48083e2bf7922e3d7ddcdc95a4cfe1de2f62d82b09",
+    "public_path": "experiments/stage2/FROZEN_PROTOCOL.json",
+    "public_sha256": "f21cceb38ec5fcf6fcf55a48083e2bf7922e3d7ddcdc95a4cfe1de2f62d82b09",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "stage3/FROZEN_LIVE_PROTOCOL.json",
+    "original_sha256": "2e0e822fcfd75223d72f4bbbe5ab032dbd1291364291fa9fdaf7b9a61a3a407e",
+    "public_path": "experiments/stage3/FROZEN_LIVE_PROTOCOL.json",
+    "public_sha256": "e918e1800ba366e2447a2e00594eaedaef2690581c804014b8813d7603f41479",
+    "transformation": "omitted excluded smoke instruction text only; preserved numeric settings, task IDs, hashes and historical costs"
+  },
+  {
+    "origin": "stage2/IMPLEMENTATION/discover.py",
+    "original_sha256": "7f23ad6270f3ccf73667406a045ed9385d16ede434a855f6a63a84300ea81d21",
+    "public_path": "experiments/stage2/discover.py",
+    "public_sha256": "f91bfeeabb61e1f306d3f42a6cac21641d8437cfffe573d9065a0fb2818b017d",
+    "transformation": "packaging-only: imports, paths, run isolation or public integrity checks; see docs/PACKAGING.md"
+  },
+  {
+    "origin": "stage2/IMPLEMENTATION/benchmark.py",
+    "original_sha256": "5ec9782621f67befe3b24d24a7ae2df8053ec24c379f508ad246227a37a149b2",
+    "public_path": "experiments/stage2/benchmark.py",
+    "public_sha256": "d0e9e95fb5d4ca04fef50cf9008b529e9b11e8993b89b242c2e35d13a3855792",
+    "transformation": "packaging-only: imports, paths, run isolation or public integrity checks; see docs/PACKAGING.md"
+  },
+  {
+    "origin": "stage3/IMPLEMENTATION/discover.py",
+    "original_sha256": "7f23ad6270f3ccf73667406a045ed9385d16ede434a855f6a63a84300ea81d21",
+    "public_path": "experiments/stage3/discover.py",
+    "public_sha256": "b6980dd6962b4657c5f600fa1e94d0630b74491970e5b422a4c4825b5fd138c9",
+    "transformation": "packaging-only: imports, paths, run isolation or public integrity checks; see docs/PACKAGING.md"
+  },
+  {
+    "origin": "stage3/IMPLEMENTATION/live_wordle.py",
+    "original_sha256": "025db73fe985958eee2b6a932d44ac2d10bccacb6deb22ce0f6ce80e54f22aa7",
+    "public_path": "experiments/stage3/live_wordle.py",
+    "public_sha256": "8a8208e44e3df60dd2774b8a3145f7fdbc1efa3bbcd105d0cccbee83411e696c",
+    "transformation": "packaging-only: imports, paths, run isolation or public integrity checks; see docs/PACKAGING.md"
+  },
+  {
+    "origin": "stage3/IMPLEMENTATION/live_webshop_smoke.py",
+    "original_sha256": "21099d35464709052f40ed6c3611f85072a3be0e3a617171bc962c2c2eb7caee",
+    "public_path": "experiments/stage3/live_webshop_smoke.py",
+    "public_sha256": "3d1cc421a59d95504ca841b3c2162c8df5aef794b7b8d5d9f7f583c63403c8d7",
+    "transformation": "packaging-only: imports, paths, run isolation or public integrity checks; see docs/PACKAGING.md"
+  },
+  {
+    "origin": "stage3/IMPLEMENTATION/live_study.py",
+    "original_sha256": "4bb71fa978b83b3518cdab821614747389ecbb534166129c98418902daa0c76b",
+    "public_path": "experiments/stage3/live_study.py",
+    "public_sha256": "659d2ddf596bd93ab015cabb54245da651f1f251e035ae9c61f1e5dc30b43297",
+    "transformation": "packaging-only: imports, paths, run isolation or public integrity checks; see docs/PACKAGING.md"
+  },
+  {
+    "origin": "stage3/IMPLEMENTATION/run_recorded.py",
+    "original_sha256": "85e51aa6565df93401779d3b0c67b22f531ddf82457b20f6e9c1e09254a399f2",
+    "public_path": "experiments/stage3/run_recorded.py",
+    "public_sha256": "da23868be815ac1e38d05f8295ae3a09c40c156a18bbe993e55ab3cf909d450d",
+    "transformation": "packaging-only: imports, paths, run isolation or public integrity checks; see docs/PACKAGING.md"
+  },
+  {
+    "origin": "stage3/IMPLEMENTATION/prepare_webshop.py",
+    "original_sha256": "88f9acbb4e9ca1b127a438415fdc690450b841620cbf207a0f31606f939fbf77",
+    "public_path": "experiments/stage3/prepare_webshop.py",
+    "public_sha256": "72f97b91b638030ed72716796dca04f2f7a2d69e8b4485bb0a342a7dac833968",
+    "transformation": "packaging-only: imports, paths, run isolation or public integrity checks; see docs/PACKAGING.md"
+  },
+  {
+    "origin": "stage3/IMPLEMENTATION/run_study.py",
+    "original_sha256": "b7cc36c1ba7098ffb8f7d44400626ac87e7beda849f8a189ab026e13c4cbf556",
+    "public_path": "experiments/stage3/run_study.py",
+    "public_sha256": "e8531f11cb92a91e4b560fe24c93d36887a3c9d44536233d0019d49e244fc3f9",
+    "transformation": "added explicit CLI/main guard; portable worker path; fresh shared setup measurements required; PYTHONHASHSEED=0"
+  },
+  {
+    "origin": "final-note/Zhijing_Wu_World_Model_Planning_Note_Final.pdf",
+    "original_sha256": "4d29fead79bf244b57198abc3d9c04af1f338a85d546c5b0dbd1d9a19e4479d1",
+    "public_path": "note/Zhijing_Wu_World_Model_Planning_Note_Final.pdf",
+    "public_sha256": "4d29fead79bf244b57198abc3d9c04af1f338a85d546c5b0dbd1d9a19e4479d1",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "final-note/Zhijing_Wu_World_Model_Planning_Note_Final.tex",
+    "original_sha256": "fe3068a6bac1f0f50d728354e8251adbc07891ce54f90ca4cd3f188eed7920fd",
+    "public_path": "note/Zhijing_Wu_World_Model_Planning_Note_Final.tex",
+    "public_sha256": "fe3068a6bac1f0f50d728354e8251adbc07891ce54f90ca4cd3f188eed7920fd",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "final-note/main.tex",
+    "original_sha256": "b22262d703f5f48d8deb11d4a1614f6878ad570c6daadbf564ec3b5e66894739",
+    "public_path": "note/main.tex",
+    "public_sha256": "b22262d703f5f48d8deb11d4a1614f6878ad570c6daadbf564ec3b5e66894739",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "final-note/assets/note-style.tex",
+    "original_sha256": "7393a3eba34ba71057a2128e6a0cf1acdd1af9f146c6a7aa4c9fbcde34d013be",
+    "public_path": "note/assets/note-style.tex",
+    "public_sha256": "7393a3eba34ba71057a2128e6a0cf1acdd1af9f146c6a7aa4c9fbcde34d013be",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "final-note/assets/references.bib",
+    "original_sha256": "e7a0d4d3ec364101fd835e14fe4e08f56a3d2a425936a1df599012d78be93c85",
+    "public_path": "note/assets/references.bib",
+    "public_sha256": "e7a0d4d3ec364101fd835e14fe4e08f56a3d2a425936a1df599012d78be93c85",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "final-note/figures/hidden-failure.tex",
+    "original_sha256": "0fcb41174469b91e1a46c914e7edd16f2afbb1a7f4c2c64f02583d1b60bbf6e2",
+    "public_path": "note/figures/hidden-failure.tex",
+    "public_sha256": "0fcb41174469b91e1a46c914e7edd16f2afbb1a7f4c2c64f02583d1b60bbf6e2",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "final-note/figures/selected-webshop.tex",
+    "original_sha256": "09f267e4cba269a72edf7d96d641659551a6539cd67f107301455262b3148473",
+    "public_path": "note/figures/selected-webshop.tex",
+    "public_sha256": "09f267e4cba269a72edf7d96d641659551a6539cd67f107301455262b3148473",
+    "transformation": "byte-identical"
+  },
+  {
+    "origin": "final-note/figures/wctr-mechanism.tex",
+    "original_sha256": "5cdf0ff9ea8d178d5d8339dc711978724d7ee69481f8c86a9aabef14fb6f0ce4",
+    "public_path": "note/figures/wctr-mechanism.tex",
+    "public_sha256": "5cdf0ff9ea8d178d5d8339dc711978724d7ee69481f8c86a9aabef14fb6f0ce4",
+    "transformation": "byte-identical"
+  }
+]

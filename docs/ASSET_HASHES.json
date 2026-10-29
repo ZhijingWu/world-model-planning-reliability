@@ -1,0 +1,264 @@
+{
+  "trajectory_revision": "9342e2cbee1f8579b5423ed5821f6ad8a81ab773",
+  "files": [
+    {
+      "stage": "v2",
+      "path": "trajectories/alfworld/alfworld_traj_test.jsonl",
+      "sha256": "abdf59f5095a064a9deb703f3ebc910a7e67eaaee4a8d3de7bec12ddcbcc5ce0",
+      "bytes": 827288
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/alfworld/alfworld_traj_train.jsonl",
+      "sha256": "7f77912c82bc27ba0c1e6178f6bfbeee9e02b5b6806d315aa5502fd6b605d5b6",
+      "bytes": 267874
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/babyai/babyai_traj_test.jsonl",
+      "sha256": "02af2287f83f21663c012dcd7d58572e05278d7d9350820a9d088411d09f8808",
+      "bytes": 694142
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/babyai/babyai_traj_train.jsonl",
+      "sha256": "fec6ef99f5f9f5f65d3e6d0b9adf28414265082fd285a4ba735e82d263bdacd7",
+      "bytes": 10250470
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/babyai/babyai_traj_val.jsonl",
+      "sha256": "9b2abb1f8b1bfc89617480cf96dcf0476d075c45b0840560cd605a27eb64a5ae",
+      "bytes": 4107892
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/maze/maze_traj_train.jsonl",
+      "sha256": "ea75e9cb4e26e5ea03ad7196c9b748cb9c56aa1126bdb34b99f18f9a81d01eb3",
+      "bytes": 471774
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/maze/maze_traj_val.jsonl",
+      "sha256": "bd4de4efe93290f320903dd10022cb9eec396b0b01163455aa10ffbe382985b3",
+      "bytes": 90969
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/sciworld/sciworld_traj_test.jsonl",
+      "sha256": "9795ea9106a6cfa4d909a6767aed7598d9406d22a8a6e4521f47329464b68641",
+      "bytes": 950836
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/sciworld/sciworld_traj_train.jsonl",
+      "sha256": "b7a093870e5905f1e35161fd353ff464cbf1f4dbada4ffecf3646c3648b9ecfa",
+      "bytes": 220392
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/textcraft/textcraft_traj_train.jsonl",
+      "sha256": "6a5d482a50f7c83041120fb996f8a21e1c40ee414f2702523006ace50a9d5f1c",
+      "bytes": 1948687
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/textcraft/textcraft_traj_val.jsonl",
+      "sha256": "11829020b349cbfa226da245b4d91668ee274cc85fe4d06680c00d026ffd2c46",
+      "bytes": 556967
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/webshop/webshop_traj_test.jsonl",
+      "sha256": "f44cb1170e5ffae173ba617f7439583ebf0fd4aa330913bacfda06ed1945cc71",
+      "bytes": 1948740
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/webshop/webshop_traj_train.jsonl",
+      "sha256": "9581c101bf1a4328b2171c77f345a8aead0ab8d67e3432b53193c06f3d655373",
+      "bytes": 757200
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/wordle/wordle_traj_test.jsonl",
+      "sha256": "4bacfab0ccce7542a5f13172bca30516ae67440ecbdf1967b59d0e25bcdb0fa7",
+      "bytes": 399600
+    },
+    {
+      "stage": "v2",
+      "path": "trajectories/wordle/wordle_traj_train.jsonl",
+      "sha256": "f2f052973e3a758cd36109d2f0486ee052be17932f037b4f4ebe84d269fb23ef",
+      "bytes": 127218
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/alfworld/alfworld_traj_test.jsonl",
+      "sha256": "abdf59f5095a064a9deb703f3ebc910a7e67eaaee4a8d3de7bec12ddcbcc5ce0",
+      "bytes": 827288
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/alfworld/alfworld_traj_train.jsonl",
+      "sha256": "7f77912c82bc27ba0c1e6178f6bfbeee9e02b5b6806d315aa5502fd6b605d5b6",
+      "bytes": 267874
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/babyai/babyai_traj_test.jsonl",
+      "sha256": "02af2287f83f21663c012dcd7d58572e05278d7d9350820a9d088411d09f8808",
+      "bytes": 694142
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/babyai/babyai_traj_train.jsonl",
+      "sha256": "fec6ef99f5f9f5f65d3e6d0b9adf28414265082fd285a4ba735e82d263bdacd7",
+      "bytes": 10250470
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/babyai/babyai_traj_val.jsonl",
+      "sha256": "9b2abb1f8b1bfc89617480cf96dcf0476d075c45b0840560cd605a27eb64a5ae",
+      "bytes": 4107892
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/maze/maze_traj_train.jsonl",
+      "sha256": "ea75e9cb4e26e5ea03ad7196c9b748cb9c56aa1126bdb34b99f18f9a81d01eb3",
+      "bytes": 471774
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/maze/maze_traj_val.jsonl",
+      "sha256": "bd4de4efe93290f320903dd10022cb9eec396b0b01163455aa10ffbe382985b3",
+      "bytes": 90969
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/sciworld/sciworld_traj_test.jsonl",
+      "sha256": "9795ea9106a6cfa4d909a6767aed7598d9406d22a8a6e4521f47329464b68641",
+      "bytes": 950836
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/sciworld/sciworld_traj_train.jsonl",
+      "sha256": "b7a093870e5905f1e35161fd353ff464cbf1f4dbada4ffecf3646c3648b9ecfa",
+      "bytes": 220392
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/textcraft/textcraft_traj_train.jsonl",
+      "sha256": "6a5d482a50f7c83041120fb996f8a21e1c40ee414f2702523006ace50a9d5f1c",
+      "bytes": 1948687
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/textcraft/textcraft_traj_val.jsonl",
+      "sha256": "11829020b349cbfa226da245b4d91668ee274cc85fe4d06680c00d026ffd2c46",
+      "bytes": 556967
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/webshop/webshop_traj_test.jsonl",
+      "sha256": "f44cb1170e5ffae173ba617f7439583ebf0fd4aa330913bacfda06ed1945cc71",
+      "bytes": 1948740
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/webshop/webshop_traj_train.jsonl",
+      "sha256": "9581c101bf1a4328b2171c77f345a8aead0ab8d67e3432b53193c06f3d655373",
+      "bytes": 757200
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/wordle/wordle_traj_test.jsonl",
+      "sha256": "4bacfab0ccce7542a5f13172bca30516ae67440ecbdf1967b59d0e25bcdb0fa7",
+      "bytes": 399600
+    },
+    {
+      "stage": "v3",
+      "path": "trajectories/wordle/wordle_traj_train.jsonl",
+      "sha256": "f2f052973e3a758cd36109d2f0486ee052be17932f037b4f4ebe84d269fb23ef",
+      "bytes": 127218
+    }
+  ],
+  "native_sources_and_assets": {
+    "SOURCES/AgentGym/agentenv/agentenv/envs/lmrlgym.py": "1e7036bec046bf83845036d9fa15c91975f2480c2688b1fad179a6ac83edf6b2",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/__init__.py": "80b355bf32b9aa482a3bca055ad1bb688e9b14f6b9c95a19a9db935b235dc398",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/launch.py": "2d03dfc6c2687a3f2bc7cea36feca6fc9c6a4bc554764ca1450107cbb76b2f45",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/maze/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/maze/environment.py": "41b8c773cc53711672aa9751d4bbbf5fe6623f5d48af7f3b96b2e3727baf4e2e",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/maze/model.py": "01f338163c689188e1db197aedad84d9e4e7f4fe3d679e8eaf1102d6646c2daf",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/maze/utils.py": "8b0a29c8fabacc4e1a6fd2b510c28998c779675eb1285edd5c3871aabd20af6d",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/server.py": "56cc78e93a19bc96898dfa955581bc6570049c3e4ace6ffc3f35bef38c82dfc0",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/wordle/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/wordle/environment.py": "24907bbed4b8a3a363ce3f9c010128c2f99dd04222cbebe8a24cd114d69772ab",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/wordle/model.py": "22d93049f191c939f9ffe9e8957bb80b359f8e25138d334d57bdebea87294fa3",
+    "SOURCES/DOWNLOAD_MANIFEST.json": "59ac67b810eb567b2a20c670e5abe80dedaf5813a9ae1470929949bbe2ff3610",
+    "SOURCES/HongbangYuan__webshop_metadata.json": "02b20c09abd001407770db3a7f5e9e2ae3883f398878ed629d80e32cad15fb67",
+    "SOURCES/LMRL-Gym/LLM_RL/environment.py": "7d5a47fe62e8b66b46735d6facacbc649558d2323f316d116a56c063a14414b5",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/data.py": "4b4dc0ed486d377f7b002f879b0fe194a625e9fc1457d541364bec3e5af50252",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/env.py": "24518e606bbd180c9c130eb7d13dbe2241bf3cc056b72995682e04b255d55889",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/game.py": "64692aae33678eb3a84a46249fc6c2a531bfa13edb4e9daa12b218fa41e57d8a",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/scripted_policies.py": "e08ebd9ab17f3291cf009936ca593668711044e00918713c416f1d3816b44f4f",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/utils.py": "eb85c8979607abe3aaad78116cb229703b5017c951b2046a6653e7531ff162ea",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/10k_words.txt": "4c298b62fd495eaa7ebcab352987d4acaf936c73208cb2345ae7eb7174860d38",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/large_words.txt": "ec72706b770ca3b70c1d61dc7f533cc56c09481904a23500b0a24d5b6aed9d33",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/tweet_words.txt": "dfa9fafe23f836d59babd9c4e9085eacb5c6336fd6cf129d6eb5c89a7303dc11",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/wordle_official.txt": "5209b35f823f8b80f0404f863bd80df06d6a966c6eb1016d69f38badc6eed5d0",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/wordle_official_200.txt": "25dc8cc61073bfb70997c892c7f05e573f9576bf971f95f3b406d1d3cd23f46c",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/wordle_official_400.txt": "d206b79145f65345154976a6d6cb328f639cd22bd65cfd0c58c3c7b4a277547b",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/wordle_official_800.txt": "26f3d9bf82fb7792112ef3daffbb294e467ceb563ac5616956e9aa5dba8c7ea3",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/wordle_official_guess.txt": "18c70a7efc582f1715ed4d218a6eca4ec6f020925b99a6e7a5e844e737cba7d3",
+    "SOURCES/LMRL-Gym/setup.py": "44d184ea5581b018b9f084e836a14768e4aaf4de5721374f49b91140cd073fc6",
+    "SOURCES/LMRL-Gym_tree.json": "1c13cc76d2aba33e21f8980e2c34babe38619621e61937011e01c275eafcba61",
+    "SOURCES/LMRL_DOWNLOAD_MANIFEST.json": "30ffed44ea50b1080df086433dda4d1a552cf62ac02c1ba3501219ac86ea21b6",
+    "SOURCES/marcos0318__AgentGym_tree.json": "9bd586ee55d372fc456ef48e95ee1a0c927d3f255893182204cc3c07e2ad9a52",
+    "SOURCES/PatchWorld/examples/generated_world_models/alfworld_benchmark_world_model.py": "6f04764880329c0b8f3f75e0748d8f36c9e78786aff078a4fc8197e120ddd0d2",
+    "SOURCES/PatchWorld/examples/generated_world_models/babyai_benchmark_world_model.py": "15f5d6d818afbf542452e1c5cffd868fad6e523b1d5c1975d2f1072ab28e1c20",
+    "SOURCES/PatchWorld/examples/generated_world_models/maze_benchmark_world_model.py": "c02b1f33fb224cd112cdd0e647935be84fc848e3bcb8242a57ece24effd86e57",
+    "SOURCES/PatchWorld/examples/generated_world_models/sciworld_benchmark_world_model.py": "9d7c24064d030d15d68c833b031e8a24c5b897a177562e1ee0642c464cfcac72",
+    "SOURCES/PatchWorld/examples/generated_world_models/textcraft_benchmark_world_model.py": "2665ea97d298634a36f95c09ab7b0f5b9873febe60e660ee51e0b0be89659797",
+    "SOURCES/PatchWorld/examples/generated_world_models/webshop_benchmark_world_model.py": "c61e59a68a34074fc7f6952d830b1056cc9e8166e3909baaafcd117327f1b376",
+    "SOURCES/PatchWorld/examples/generated_world_models/wordle_benchmark_world_model.py": "5a42da43d728b5358fc2d50934b011884cfa059e1cc0be4f5e90c8efeb3ef0ef",
+    "SOURCES/PatchWorld/patchworld/worldmodel_base.py": "a888d27c3577fb61cf730be2a22c2b77910c2d3a776b73e1ee07fd2cf369c6d2",
+    "SOURCES/PatchWorld/patchworld/worldmodel_data.py": "cdc60da89d9163f2b08cb747e49cfd3e9d8eec9ef9a6c5dc1190d2ac64dd8b72",
+    "SOURCES/PatchWorld/patchworld/worldmodel_validator.py": "c447157a9fb00240ebd555cd158141b52333de6e862a35da7d695c01cfcc5bc6",
+    "SOURCES/princeton-nlp__WebShop_tree.json": "8d498a594102638f99440dfcd57473f8d80c5c97ac51313ee6472d6810c8d842",
+    "SOURCES/REPOSITORIES.json": "e8553e8a6e6f06b8d6acb0b6883cdb1f1c305e463930ed58e311b377d1e7cd3e",
+    "SOURCES/RUNTIME_LOCK.txt": "6491ae86d606be6369008f843fcce17380aabb49754580f58f52f8709a206376",
+    "SOURCES/STAGE2_FROZEN_PROTOCOL.json": "f21cceb38ec5fcf6fcf55a48083e2bf7922e3d7ddcdc95a4cfe1de2f62d82b09",
+    "SOURCES/trajectories/manifest.json": "6c1d08f50486743ff54a398b5274f6d7725063168df4f9c5eab87f843bc0bab1",
+    "SOURCES/WebShop/data/items_human_ins.json": "cf78667548a71786e1d9049c24b802e48e1084ad4bb021cae56ce1f6d96954a3",
+    "SOURCES/WebShop/data/items_ins_v2_1000.json": "f88a36314a397b53b3d9c3fa5878e5f7b26d35019a51ec83fbedeca61a948f6f",
+    "SOURCES/WebShop/data/items_shuffle_1000.json": "30a4765c3a327af72d9a9a95a6b2486d516f0fa1d3ecd83681901ce82a21b269",
+    "SOURCES/WebShop/requirements.txt": "b4e83b7e9c670c724215fcb79e43f52f591de354a8f70870ba4553c88de26d2d",
+    "SOURCES/WebShop/search_engine/convert_product_file_format.py": "19dc136a6d828bd4016ec616ea0a565378ce7225b1ac60057b1929d67b4d0f03",
+    "SOURCES/WebShop/search_engine/lucene_searcher.py": "905be2081ffa4c9f93e1b106de4c012ac9677c8043dd264ae92a68dc2a287fa0",
+    "SOURCES/WebShop/web_agent_site/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "SOURCES/WebShop/web_agent_site/app.py": "f9393af973fd2d0343c8b68e89572e6139ebc8d6a2309a145c554a80284e81cb",
+    "SOURCES/WebShop/web_agent_site/attributes/annotate.py": "f64f3f8be3af15794821506014b97c1abc75424973ab9b06d4af4b9c2dec4a45",
+    "SOURCES/WebShop/web_agent_site/attributes/generate_attrs.py": "b6e079d6765966e1c244e7de31d444c17423d912d24f0ef08844c32daa2efe3a",
+    "SOURCES/WebShop/web_agent_site/engine/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "SOURCES/WebShop/web_agent_site/engine/engine.py": "9b86ffc82951124f5c4a7eb8103de14100dbee11ba8869951ed6fb8feaeef804",
+    "SOURCES/WebShop/web_agent_site/engine/goal.py": "9703c8583244e2041182eb14856186b998145ab16ce2ba9aef8cb680877c8ed5",
+    "SOURCES/WebShop/web_agent_site/engine/normalize.py": "1962113ac9e209a636d4f181b2c70544bbea59b03adca9847e48287158d794fb",
+    "SOURCES/WebShop/web_agent_site/envs/__init__.py": "7cdf100d019fd715d605ff0cd0f0d3d4285d7f7b2dbe4e4634e9a1266ab5e854",
+    "SOURCES/WebShop/web_agent_site/envs/web_agent_site_env.py": "7b3a43c0250ef2215e2ac1e613ebafbcfbea053a24fcbb773541dc634f124981",
+    "SOURCES/WebShop/web_agent_site/envs/web_agent_text_env.py": "f4efee238c2a69ad76ff5372716a16051c67ea0351c7006491834822ea9afda3",
+    "SOURCES/WebShop/web_agent_site/models/__init__.py": "06a57f9b9ff18e749dff8b9bbb69cf78819a7515fb79a414ba2c3e2ee27ed626",
+    "SOURCES/WebShop/web_agent_site/models/models.py": "229b2f2fb0feedcac84a8e7ed6484c976e4c0ccb026e22996052215c427445a7",
+    "SOURCES/WebShop/web_agent_site/templates/attributes_page.html": "f19f4e58656e3be297f9cc86b98cb04b571d84114114c07404f81e0079e3875f",
+    "SOURCES/WebShop/web_agent_site/templates/description_page.html": "77bdb3e51c647a1b009f17ff5e40c7df62c2c8fb16c43cd0f84783e20f3b2a7a",
+    "SOURCES/WebShop/web_agent_site/templates/done_page.html": "6da5b494522666f0644b948e5c2c5a0e5c5104926f3c643c7828ff653d5e8eb9",
+    "SOURCES/WebShop/web_agent_site/templates/features_page.html": "d10df82cad8c34d698a8c1e267ffd97631fe4edfcc39a89ed187362573872ac0",
+    "SOURCES/WebShop/web_agent_site/templates/item_page.html": "f6a11e5a3ffbada7cc5fbb26568ae971be84811d5d4f0d0a7043218a52906987",
+    "SOURCES/WebShop/web_agent_site/templates/results_page.html": "4d448f7ee6c21f55bc4dfcf4952e37d3594f59996988c431d23db9cd38ea2777",
+    "SOURCES/WebShop/web_agent_site/templates/review_page.html": "c1238f7ef89e186ec5817f04d6727c90ba1d41ad7481255e673920eb4804f464",
+    "SOURCES/WebShop/web_agent_site/templates/search_page.html": "fb4cdae0b21f17a33ac56a47389e96595991838461502f2fad140ef53521a601",
+    "SOURCES/WebShop/web_agent_site/utils.py": "bdd6df3b869cf3fe028169add3611d1b811ae663ae4f79520617c26b20614970",
+    "SOURCES/WooooDyy__AgentGym_tree.json": "5700700fb155e90caf3dbfa73c9382f1f8b0e8f911eb0d123bc54dd3408b59f7",
+    "SOURCES/YWZBrandon__webshop-data_metadata.json": "a62022438a294bc6d1da8a31582f76337e54e5fc8f87f51fea3a5ae6a026a637"
+  }
+}

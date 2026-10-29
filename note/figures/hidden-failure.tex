@@ -1,0 +1,34 @@
+% Original vector schematic. Values illustrate ownership, not a new experiment.
+\begin{tikzpicture}[x=1cm,y=.94cm]
+  \path[use as bounding box] (0,0) rectangle (17.6,4.8);
+  \fill[WarmPale,rounded corners=3pt] (0,.05) rectangle (8.55,4.8);
+  \fill[TealPale,rounded corners=3pt] (9.05,.05) rectangle (17.6,4.8);
+  \node[anchor=west,font=\fontsize{10.2}{12}\selectfont\bfseries,text=Navy] at (.3,4.43) {Shared parent: a hidden write};
+  \node[anchor=west,font=\fontsize{10.2}{12}\selectfont\bfseries,text=Navy] at (9.35,4.43) {Isolated rollouts: a stable parent};
+  \node[box] (p) at (1.36,3.3) {parent $b$\\\texttt{nested.x=0}};
+  \node[box] (a) at (4.28,3.3) {simulate A\\$x\leftarrow x+1$};
+  \node[box,draw=Teal!55] (oa) at (7.18,3.3) {returns $x=1$\\\textcolor{Teal}{ref. output}};
+  \draw[flow] (p.east)--(a.west);
+  \draw[tealflow] (a.east)--(oa.west);
+  \node[box,draw=Warm,fill=WarmPale] (badp) at (1.36,1.17) {same parent $b$\\\texttt{nested.x=1}};
+  \node[box] (b) at (4.28,1.17) {simulate B\\read $x$};
+  \node[box,draw=Warm,fill=WarmPale] (ob) at (7.18,1.17) {returns $1$\\\textcolor{Warm}{expected $0$}};
+  \draw[warmflow,dashed] (a.south)--++(0,-.55)-|(badp.north);
+  \node[font=\fontsize{9.2}{11}\selectfont,text=Warm] at (2.85,2.47) {writes through an alias};
+  \draw[warmflow] (badp.east)--(b.west);
+  \draw[warmflow] (b.east)--(ob.west);
+  \begin{scope}[xshift=9.05cm]
+    \node[box] (ip) at (1.36,3.3) {parent $b$\\\texttt{nested.x=0}};
+    \node[box] (ia) at (4.28,3.3) {A on a copy\\$x\leftarrow x+1$};
+    \node[box,draw=Teal!55] (ioa) at (7.18,3.3) {returns $x=1$\\\textcolor{Teal}{ref. output}};
+    \draw[flow] (ip.east)--(ia.west);
+    \draw[tealflow] (ia.east)--(ioa.west);
+    \node[box,draw=Teal!55] (goodp) at (1.36,1.17) {same parent $b$\\\texttt{nested.x=0}};
+    \node[box] (ib) at (4.28,1.17) {B from $b$\\read $x$};
+    \node[box,draw=Teal!55] (iob) at (7.18,1.17) {returns $0$\\\textcolor{Teal}{ref. output}};
+    \draw[tealflow] (ip.south)--(goodp.north);
+    \node[anchor=west,font=\fontsize{9.2}{11}\selectfont,text=Teal] at (1.55,2.2) {preserved};
+    \draw[tealflow] (goodp.east)--(ib.west);
+    \draw[tealflow] (ib.east)--(iob.west);
+  \end{scope}
+\end{tikzpicture}

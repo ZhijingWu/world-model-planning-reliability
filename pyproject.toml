@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wctr-research"
+version = "0.1.0"
+description = "State ownership and transactional rollout isolation in executable world models"
+requires-python = ">=3.10"
+authors = [{name = "Zhijing Wu"}]
+license = {text = "MIT (original software); see LICENSE and docs/LICENSING.md"}
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]

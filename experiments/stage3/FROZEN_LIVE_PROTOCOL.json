@@ -1,0 +1,873 @@
+{
+  "status": "frozen before final task execution",
+  "frozen_at_utc": "2026-10-28T13:55:18.635282+00:00",
+  "primary_metric": "Actual environment success, including zero for assigned tasks not reached within the same total CPU allowance",
+  "success": {
+    "webshop": "actual done AND actual reward exactly 1.0",
+    "wordle": "original AgentGym done AND shifted reward exactly 1.0"
+  },
+  "tasks": {
+    "webshop": [
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-3",
+        "environment_task_id": 3,
+        "seed": 20261028,
+        "instruction_sha256": "bdc008e4fe949c596882c5717c48405b2dab1da6af11c6a7feb3ed814d266064"
+      },
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-7",
+        "environment_task_id": 7,
+        "seed": 20261028,
+        "instruction_sha256": "e4c4c7aca4b53f2ec872eb38b1a6a70e26390cbac7360c25ed1897a9cef03512"
+      },
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-6",
+        "environment_task_id": 6,
+        "seed": 20261028,
+        "instruction_sha256": "c09992259797088d7167bd5f153332579c87d792d214680ce8587f70d3e73b96"
+      },
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-2",
+        "environment_task_id": 2,
+        "seed": 20261028,
+        "instruction_sha256": "a9c5048dd241b2629a211c3a54600678c727b0e690b8c666714cf58276fa8e1b"
+      },
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-5",
+        "environment_task_id": 5,
+        "seed": 20261028,
+        "instruction_sha256": "4d3f6408c50860a2757c0cdcc79049c10cda10fba53606894c6c5b7f3dd60f50"
+      },
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-8",
+        "environment_task_id": 8,
+        "seed": 20261028,
+        "instruction_sha256": "3cd74b19aa7ba83fc335a2dcf0721a3f76a0c23a46e96bfa3c5fdb0e1b8a070a"
+      },
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-11",
+        "environment_task_id": 11,
+        "seed": 20261028,
+        "instruction_sha256": "51a3cb9a831a1e3709a490fcba81cb8979ad0bdd1f3e75a4f92b4e032f73dea7"
+      },
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-4",
+        "environment_task_id": 4,
+        "seed": 20261028,
+        "instruction_sha256": "346120bad741704248aa1a7835703452169cdc721d1cadbb6f863431271aa83f"
+      },
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-1",
+        "environment_task_id": 1,
+        "seed": 20261028,
+        "instruction_sha256": "7feadaddd8598038fb3f36231efbc1147a33a948dd843155e4d34559082439cd"
+      },
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-12",
+        "environment_task_id": 12,
+        "seed": 20261028,
+        "instruction_sha256": "e4dde6228eb1b74f642bcc68f8f202259dd586be15a3971420306f78654da96e"
+      },
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-9",
+        "environment_task_id": 9,
+        "seed": 20261028,
+        "instruction_sha256": "b3fde3fe982d8f494a099104ff4f8be6c610d775e3d97a2f7c0e1a366a7fe200"
+      },
+      {
+        "task_id": "webshop-small1k-640c783538a4-goal-10",
+        "environment_task_id": 10,
+        "seed": 20261028,
+        "instruction_sha256": "1e2d2fba4ee3c0d17af039857dd8968aa1603a4fa0232c368904663c6d71112d"
+      }
+    ],
+    "wordle": [
+      {
+        "task_id": "agentgym_wordle_seed_17526",
+        "seed": 17526,
+        "environment_task_id": 17526
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13820",
+        "seed": 13820,
+        "environment_task_id": 13820
+      },
+      {
+        "task_id": "agentgym_wordle_seed_19772",
+        "seed": 19772,
+        "environment_task_id": 19772
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13546",
+        "seed": 13546,
+        "environment_task_id": 13546
+      },
+      {
+        "task_id": "agentgym_wordle_seed_19582",
+        "seed": 19582,
+        "environment_task_id": 19582
+      },
+      {
+        "task_id": "agentgym_wordle_seed_10544",
+        "seed": 10544,
+        "environment_task_id": 10544
+      },
+      {
+        "task_id": "agentgym_wordle_seed_19585",
+        "seed": 19585,
+        "environment_task_id": 19585
+      },
+      {
+        "task_id": "agentgym_wordle_seed_10021",
+        "seed": 10021,
+        "environment_task_id": 10021
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13487",
+        "seed": 13487,
+        "environment_task_id": 13487
+      },
+      {
+        "task_id": "agentgym_wordle_seed_17523",
+        "seed": 17523,
+        "environment_task_id": 17523
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16672",
+        "seed": 16672,
+        "environment_task_id": 16672
+      },
+      {
+        "task_id": "agentgym_wordle_seed_15780",
+        "seed": 15780,
+        "environment_task_id": 15780
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13343",
+        "seed": 13343,
+        "environment_task_id": 13343
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13516",
+        "seed": 13516,
+        "environment_task_id": 13516
+      },
+      {
+        "task_id": "agentgym_wordle_seed_17598",
+        "seed": 17598,
+        "environment_task_id": 17598
+      },
+      {
+        "task_id": "agentgym_wordle_seed_11413",
+        "seed": 11413,
+        "environment_task_id": 11413
+      },
+      {
+        "task_id": "agentgym_wordle_seed_19985",
+        "seed": 19985,
+        "environment_task_id": 19985
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13440",
+        "seed": 13440,
+        "environment_task_id": 13440
+      },
+      {
+        "task_id": "agentgym_wordle_seed_10619",
+        "seed": 10619,
+        "environment_task_id": 10619
+      },
+      {
+        "task_id": "agentgym_wordle_seed_11367",
+        "seed": 11367,
+        "environment_task_id": 11367
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13213",
+        "seed": 13213,
+        "environment_task_id": 13213
+      },
+      {
+        "task_id": "agentgym_wordle_seed_17990",
+        "seed": 17990,
+        "environment_task_id": 17990
+      },
+      {
+        "task_id": "agentgym_wordle_seed_10927",
+        "seed": 10927,
+        "environment_task_id": 10927
+      },
+      {
+        "task_id": "agentgym_wordle_seed_18801",
+        "seed": 18801,
+        "environment_task_id": 18801
+      },
+      {
+        "task_id": "agentgym_wordle_seed_15680",
+        "seed": 15680,
+        "environment_task_id": 15680
+      },
+      {
+        "task_id": "agentgym_wordle_seed_12552",
+        "seed": 12552,
+        "environment_task_id": 12552
+      },
+      {
+        "task_id": "agentgym_wordle_seed_12550",
+        "seed": 12550,
+        "environment_task_id": 12550
+      },
+      {
+        "task_id": "agentgym_wordle_seed_12318",
+        "seed": 12318,
+        "environment_task_id": 12318
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16458",
+        "seed": 16458,
+        "environment_task_id": 16458
+      },
+      {
+        "task_id": "agentgym_wordle_seed_12882",
+        "seed": 12882,
+        "environment_task_id": 12882
+      },
+      {
+        "task_id": "agentgym_wordle_seed_14045",
+        "seed": 14045,
+        "environment_task_id": 14045
+      },
+      {
+        "task_id": "agentgym_wordle_seed_18077",
+        "seed": 18077,
+        "environment_task_id": 18077
+      },
+      {
+        "task_id": "agentgym_wordle_seed_12814",
+        "seed": 12814,
+        "environment_task_id": 12814
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13877",
+        "seed": 13877,
+        "environment_task_id": 13877
+      },
+      {
+        "task_id": "agentgym_wordle_seed_14776",
+        "seed": 14776,
+        "environment_task_id": 14776
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16319",
+        "seed": 16319,
+        "environment_task_id": 16319
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16841",
+        "seed": 16841,
+        "environment_task_id": 16841
+      },
+      {
+        "task_id": "agentgym_wordle_seed_15021",
+        "seed": 15021,
+        "environment_task_id": 15021
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16028",
+        "seed": 16028,
+        "environment_task_id": 16028
+      },
+      {
+        "task_id": "agentgym_wordle_seed_12664",
+        "seed": 12664,
+        "environment_task_id": 12664
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13807",
+        "seed": 13807,
+        "environment_task_id": 13807
+      },
+      {
+        "task_id": "agentgym_wordle_seed_15443",
+        "seed": 15443,
+        "environment_task_id": 15443
+      },
+      {
+        "task_id": "agentgym_wordle_seed_11635",
+        "seed": 11635,
+        "environment_task_id": 11635
+      },
+      {
+        "task_id": "agentgym_wordle_seed_15500",
+        "seed": 15500,
+        "environment_task_id": 15500
+      },
+      {
+        "task_id": "agentgym_wordle_seed_17958",
+        "seed": 17958,
+        "environment_task_id": 17958
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16798",
+        "seed": 16798,
+        "environment_task_id": 16798
+      },
+      {
+        "task_id": "agentgym_wordle_seed_11903",
+        "seed": 11903,
+        "environment_task_id": 11903
+      },
+      {
+        "task_id": "agentgym_wordle_seed_11130",
+        "seed": 11130,
+        "environment_task_id": 11130
+      },
+      {
+        "task_id": "agentgym_wordle_seed_18085",
+        "seed": 18085,
+        "environment_task_id": 18085
+      },
+      {
+        "task_id": "agentgym_wordle_seed_18213",
+        "seed": 18213,
+        "environment_task_id": 18213
+      },
+      {
+        "task_id": "agentgym_wordle_seed_18375",
+        "seed": 18375,
+        "environment_task_id": 18375
+      },
+      {
+        "task_id": "agentgym_wordle_seed_15002",
+        "seed": 15002,
+        "environment_task_id": 15002
+      },
+      {
+        "task_id": "agentgym_wordle_seed_12183",
+        "seed": 12183,
+        "environment_task_id": 12183
+      },
+      {
+        "task_id": "agentgym_wordle_seed_10881",
+        "seed": 10881,
+        "environment_task_id": 10881
+      },
+      {
+        "task_id": "agentgym_wordle_seed_10444",
+        "seed": 10444,
+        "environment_task_id": 10444
+      },
+      {
+        "task_id": "agentgym_wordle_seed_14897",
+        "seed": 14897,
+        "environment_task_id": 14897
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13053",
+        "seed": 13053,
+        "environment_task_id": 13053
+      },
+      {
+        "task_id": "agentgym_wordle_seed_18594",
+        "seed": 18594,
+        "environment_task_id": 18594
+      },
+      {
+        "task_id": "agentgym_wordle_seed_15762",
+        "seed": 15762,
+        "environment_task_id": 15762
+      },
+      {
+        "task_id": "agentgym_wordle_seed_12210",
+        "seed": 12210,
+        "environment_task_id": 12210
+      },
+      {
+        "task_id": "agentgym_wordle_seed_14889",
+        "seed": 14889,
+        "environment_task_id": 14889
+      },
+      {
+        "task_id": "agentgym_wordle_seed_10222",
+        "seed": 10222,
+        "environment_task_id": 10222
+      },
+      {
+        "task_id": "agentgym_wordle_seed_11797",
+        "seed": 11797,
+        "environment_task_id": 11797
+      },
+      {
+        "task_id": "agentgym_wordle_seed_14257",
+        "seed": 14257,
+        "environment_task_id": 14257
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16623",
+        "seed": 16623,
+        "environment_task_id": 16623
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16879",
+        "seed": 16879,
+        "environment_task_id": 16879
+      },
+      {
+        "task_id": "agentgym_wordle_seed_15389",
+        "seed": 15389,
+        "environment_task_id": 15389
+      },
+      {
+        "task_id": "agentgym_wordle_seed_19232",
+        "seed": 19232,
+        "environment_task_id": 19232
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16246",
+        "seed": 16246,
+        "environment_task_id": 16246
+      },
+      {
+        "task_id": "agentgym_wordle_seed_18943",
+        "seed": 18943,
+        "environment_task_id": 18943
+      },
+      {
+        "task_id": "agentgym_wordle_seed_14531",
+        "seed": 14531,
+        "environment_task_id": 14531
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13617",
+        "seed": 13617,
+        "environment_task_id": 13617
+      },
+      {
+        "task_id": "agentgym_wordle_seed_15751",
+        "seed": 15751,
+        "environment_task_id": 15751
+      },
+      {
+        "task_id": "agentgym_wordle_seed_12526",
+        "seed": 12526,
+        "environment_task_id": 12526
+      },
+      {
+        "task_id": "agentgym_wordle_seed_10196",
+        "seed": 10196,
+        "environment_task_id": 10196
+      },
+      {
+        "task_id": "agentgym_wordle_seed_15796",
+        "seed": 15796,
+        "environment_task_id": 15796
+      },
+      {
+        "task_id": "agentgym_wordle_seed_12532",
+        "seed": 12532,
+        "environment_task_id": 12532
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16537",
+        "seed": 16537,
+        "environment_task_id": 16537
+      },
+      {
+        "task_id": "agentgym_wordle_seed_17405",
+        "seed": 17405,
+        "environment_task_id": 17405
+      },
+      {
+        "task_id": "agentgym_wordle_seed_11975",
+        "seed": 11975,
+        "environment_task_id": 11975
+      },
+      {
+        "task_id": "agentgym_wordle_seed_14993",
+        "seed": 14993,
+        "environment_task_id": 14993
+      },
+      {
+        "task_id": "agentgym_wordle_seed_19679",
+        "seed": 19679,
+        "environment_task_id": 19679
+      },
+      {
+        "task_id": "agentgym_wordle_seed_10618",
+        "seed": 10618,
+        "environment_task_id": 10618
+      },
+      {
+        "task_id": "agentgym_wordle_seed_10968",
+        "seed": 10968,
+        "environment_task_id": 10968
+      },
+      {
+        "task_id": "agentgym_wordle_seed_11786",
+        "seed": 11786,
+        "environment_task_id": 11786
+      },
+      {
+        "task_id": "agentgym_wordle_seed_18744",
+        "seed": 18744,
+        "environment_task_id": 18744
+      },
+      {
+        "task_id": "agentgym_wordle_seed_11048",
+        "seed": 11048,
+        "environment_task_id": 11048
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13090",
+        "seed": 13090,
+        "environment_task_id": 13090
+      },
+      {
+        "task_id": "agentgym_wordle_seed_19797",
+        "seed": 19797,
+        "environment_task_id": 19797
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16244",
+        "seed": 16244,
+        "environment_task_id": 16244
+      },
+      {
+        "task_id": "agentgym_wordle_seed_13391",
+        "seed": 13391,
+        "environment_task_id": 13391
+      },
+      {
+        "task_id": "agentgym_wordle_seed_15806",
+        "seed": 15806,
+        "environment_task_id": 15806
+      },
+      {
+        "task_id": "agentgym_wordle_seed_14598",
+        "seed": 14598,
+        "environment_task_id": 14598
+      },
+      {
+        "task_id": "agentgym_wordle_seed_16578",
+        "seed": 16578,
+        "environment_task_id": 16578
+      },
+      {
+        "task_id": "agentgym_wordle_seed_14583",
+        "seed": 14583,
+        "environment_task_id": 14583
+      },
+      {
+        "task_id": "agentgym_wordle_seed_17351",
+        "seed": 17351,
+        "environment_task_id": 17351
+      },
+      {
+        "task_id": "agentgym_wordle_seed_19552",
+        "seed": 19552,
+        "environment_task_id": 19552
+      },
+      {
+        "task_id": "agentgym_wordle_seed_14274",
+        "seed": 14274,
+        "environment_task_id": 14274
+      },
+      {
+        "task_id": "agentgym_wordle_seed_12163",
+        "seed": 12163,
+        "environment_task_id": 12163
+      },
+      {
+        "task_id": "agentgym_wordle_seed_19088",
+        "seed": 19088,
+        "environment_task_id": 19088
+      }
+    ]
+  },
+  "sampling_seed": 20261028,
+  "execution_order": [
+    [
+      "wordle",
+      "deepcopy"
+    ],
+    [
+      "webshop",
+      "deepcopy"
+    ],
+    [
+      "wordle",
+      "journal"
+    ],
+    [
+      "webshop",
+      "wctr"
+    ],
+    [
+      "webshop",
+      "journal"
+    ],
+    [
+      "wordle",
+      "topfield"
+    ],
+    [
+      "webshop",
+      "topfield"
+    ],
+    [
+      "wordle",
+      "wctr"
+    ]
+  ],
+  "python_hash_seed": 0,
+  "search": "common breadth-first expansion with discounted model score; retain best root action; no environment stepping in search",
+  "search_depth": 3,
+  "expansion_cap_per_decision": 96,
+  "max_candidates": 4,
+  "discount": 0.95,
+  "interaction_cap": {
+    "webshop": 12,
+    "wordle": 6
+  },
+  "calibration_calls": 32,
+  "calibration_source": "retained train-only trajectories",
+  "total_cpu_allowance_s": 180.0,
+  "worker_wall_cap_s": 300,
+  "shared_environment_setup_cpu_per_arm_s": {
+    "webshop": 5.21484375,
+    "wordle": 0.0
+  },
+  "shared_environment_setup_wall_per_arm_s": {
+    "webshop": 4.421129550000387,
+    "wordle": 0.0
+  },
+  "budget_rule": "One model lifetime per domain/method, include startup/imports, all setup, all tasks, verification, profiles, serialization, normal teardown; CPU checks before each expansion/interaction; post-audit complete GetProcessTimes; report any overshoot. Shared actual conversion/index cost charged once across four arms.",
+  "source_revisions": {
+    "WebShop": "64fa2a5c15c7daa698b9ac93f5bb5437b634c9bd",
+    "AgentGym": "3ef9235d23e68e7c2920c5422ad957dc8ced5c6c",
+    "LMRL-Gym": "83abeedb3a461c3d7d20572b73318a259d85f2ac"
+  },
+  "implementation_hashes": {
+    "IMPLEMENTATION/discover.py": "7f23ad6270f3ccf73667406a045ed9385d16ede434a855f6a63a84300ea81d21",
+    "IMPLEMENTATION/freeze_live.py": "21c94456dcc7bb6ae67e67a4fd4361ced2f43d8350222c1cdf1bc022619aee89",
+    "IMPLEMENTATION/isolation.py": "4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612",
+    "IMPLEMENTATION/live_study.py": "4bb71fa978b83b3518cdab821614747389ecbb534166129c98418902daa0c76b",
+    "IMPLEMENTATION/live_webshop_smoke.py": "21099d35464709052f40ed6c3611f85072a3be0e3a617171bc962c2c2eb7caee",
+    "IMPLEMENTATION/live_wordle.py": "025db73fe985958eee2b6a932d44ac2d10bccacb6deb22ce0f6ce80e54f22aa7",
+    "IMPLEMENTATION/prepare_webshop.py": "88f9acbb4e9ca1b127a438415fdc690450b841620cbf207a0f31606f939fbf77",
+    "IMPLEMENTATION/run_recorded.py": "85e51aa6565df93401779d3b0c67b22f531ddf82457b20f6e9c1e09254a399f2",
+    "IMPLEMENTATION/run_study.py": "b7cc36c1ba7098ffb8f7d44400626ac87e7beda849f8a189ab026e13c4cbf556",
+    "IMPLEMENTATION/run_wordle_smokes.py": "9947ff2f9d67b62f02f35473c2690b58759af32b6149734aed392223be87da87",
+    "IMPLEMENTATION/test_isolation.py": "ed6da10772be7db2d7f3d376650f5376b0ed9f661163e1f612a83073a5e4a3b0",
+    "IMPLEMENTATION/test_live_adapter.py": "72dfadcc7af6b8e53f3ca05a92f301a8114661a60cfd8533626ef345357cd097",
+    "IMPLEMENTATION/test_live_planner.py": "3cc9042ef16bc597120c1db712945e555bb4f17a4dc3ec436a8f4441810e32d4"
+  },
+  "source_hashes": {
+    "SOURCES/AgentGym/agentenv/agentenv/envs/lmrlgym.py": "1e7036bec046bf83845036d9fa15c91975f2480c2688b1fad179a6ac83edf6b2",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/__init__.py": "80b355bf32b9aa482a3bca055ad1bb688e9b14f6b9c95a19a9db935b235dc398",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/launch.py": "2d03dfc6c2687a3f2bc7cea36feca6fc9c6a4bc554764ca1450107cbb76b2f45",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/maze/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/maze/environment.py": "41b8c773cc53711672aa9751d4bbbf5fe6623f5d48af7f3b96b2e3727baf4e2e",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/maze/model.py": "01f338163c689188e1db197aedad84d9e4e7f4fe3d679e8eaf1102d6646c2daf",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/maze/utils.py": "8b0a29c8fabacc4e1a6fd2b510c28998c779675eb1285edd5c3871aabd20af6d",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/server.py": "56cc78e93a19bc96898dfa955581bc6570049c3e4ace6ffc3f35bef38c82dfc0",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/wordle/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/wordle/environment.py": "24907bbed4b8a3a363ce3f9c010128c2f99dd04222cbebe8a24cd114d69772ab",
+    "SOURCES/AgentGym/agentenv-lmrlgym/agentenv_lmrlgym/wordle/model.py": "22d93049f191c939f9ffe9e8957bb80b359f8e25138d334d57bdebea87294fa3",
+    "SOURCES/DOWNLOAD_MANIFEST.json": "59ac67b810eb567b2a20c670e5abe80dedaf5813a9ae1470929949bbe2ff3610",
+    "SOURCES/HongbangYuan__webshop_metadata.json": "02b20c09abd001407770db3a7f5e9e2ae3883f398878ed629d80e32cad15fb67",
+    "SOURCES/LMRL-Gym/LLM_RL/environment.py": "7d5a47fe62e8b66b46735d6facacbc649558d2323f316d116a56c063a14414b5",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/data.py": "4b4dc0ed486d377f7b002f879b0fe194a625e9fc1457d541364bec3e5af50252",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/env.py": "24518e606bbd180c9c130eb7d13dbe2241bf3cc056b72995682e04b255d55889",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/game.py": "64692aae33678eb3a84a46249fc6c2a531bfa13edb4e9daa12b218fa41e57d8a",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/scripted_policies.py": "e08ebd9ab17f3291cf009936ca593668711044e00918713c416f1d3816b44f4f",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/env/utils.py": "eb85c8979607abe3aaad78116cb229703b5017c951b2046a6653e7531ff162ea",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/10k_words.txt": "4c298b62fd495eaa7ebcab352987d4acaf936c73208cb2345ae7eb7174860d38",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/large_words.txt": "ec72706b770ca3b70c1d61dc7f533cc56c09481904a23500b0a24d5b6aed9d33",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/tweet_words.txt": "dfa9fafe23f836d59babd9c4e9085eacb5c6336fd6cf129d6eb5c89a7303dc11",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/wordle_official.txt": "5209b35f823f8b80f0404f863bd80df06d6a966c6eb1016d69f38badc6eed5d0",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/wordle_official_200.txt": "25dc8cc61073bfb70997c892c7f05e573f9576bf971f95f3b406d1d3cd23f46c",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/wordle_official_400.txt": "d206b79145f65345154976a6d6cb328f639cd22bd65cfd0c58c3c7b4a277547b",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/wordle_official_800.txt": "26f3d9bf82fb7792112ef3daffbb294e467ceb563ac5616956e9aa5dba8c7ea3",
+    "SOURCES/LMRL-Gym/llm_rl_scripts/wordle/vocab/wordle_official_guess.txt": "18c70a7efc582f1715ed4d218a6eca4ec6f020925b99a6e7a5e844e737cba7d3",
+    "SOURCES/LMRL-Gym/setup.py": "44d184ea5581b018b9f084e836a14768e4aaf4de5721374f49b91140cd073fc6",
+    "SOURCES/LMRL-Gym_tree.json": "1c13cc76d2aba33e21f8980e2c34babe38619621e61937011e01c275eafcba61",
+    "SOURCES/LMRL_DOWNLOAD_MANIFEST.json": "30ffed44ea50b1080df086433dda4d1a552cf62ac02c1ba3501219ac86ea21b6",
+    "SOURCES/marcos0318__AgentGym_tree.json": "9bd586ee55d372fc456ef48e95ee1a0c927d3f255893182204cc3c07e2ad9a52",
+    "SOURCES/PatchWorld/examples/generated_world_models/alfworld_benchmark_world_model.py": "6f04764880329c0b8f3f75e0748d8f36c9e78786aff078a4fc8197e120ddd0d2",
+    "SOURCES/PatchWorld/examples/generated_world_models/babyai_benchmark_world_model.py": "15f5d6d818afbf542452e1c5cffd868fad6e523b1d5c1975d2f1072ab28e1c20",
+    "SOURCES/PatchWorld/examples/generated_world_models/maze_benchmark_world_model.py": "c02b1f33fb224cd112cdd0e647935be84fc848e3bcb8242a57ece24effd86e57",
+    "SOURCES/PatchWorld/examples/generated_world_models/sciworld_benchmark_world_model.py": "9d7c24064d030d15d68c833b031e8a24c5b897a177562e1ee0642c464cfcac72",
+    "SOURCES/PatchWorld/examples/generated_world_models/textcraft_benchmark_world_model.py": "2665ea97d298634a36f95c09ab7b0f5b9873febe60e660ee51e0b0be89659797",
+    "SOURCES/PatchWorld/examples/generated_world_models/webshop_benchmark_world_model.py": "c61e59a68a34074fc7f6952d830b1056cc9e8166e3909baaafcd117327f1b376",
+    "SOURCES/PatchWorld/examples/generated_world_models/wordle_benchmark_world_model.py": "5a42da43d728b5358fc2d50934b011884cfa059e1cc0be4f5e90c8efeb3ef0ef",
+    "SOURCES/PatchWorld/patchworld/worldmodel_base.py": "a888d27c3577fb61cf730be2a22c2b77910c2d3a776b73e1ee07fd2cf369c6d2",
+    "SOURCES/PatchWorld/patchworld/worldmodel_data.py": "cdc60da89d9163f2b08cb747e49cfd3e9d8eec9ef9a6c5dc1190d2ac64dd8b72",
+    "SOURCES/PatchWorld/patchworld/worldmodel_validator.py": "c447157a9fb00240ebd555cd158141b52333de6e862a35da7d695c01cfcc5bc6",
+    "SOURCES/princeton-nlp__WebShop_tree.json": "8d498a594102638f99440dfcd57473f8d80c5c97ac51313ee6472d6810c8d842",
+    "SOURCES/REPOSITORIES.json": "e8553e8a6e6f06b8d6acb0b6883cdb1f1c305e463930ed58e311b377d1e7cd3e",
+    "SOURCES/RUNTIME_LOCK.txt": "6491ae86d606be6369008f843fcce17380aabb49754580f58f52f8709a206376",
+    "SOURCES/STAGE2_FROZEN_PROTOCOL.json": "f21cceb38ec5fcf6fcf55a48083e2bf7922e3d7ddcdc95a4cfe1de2f62d82b09",
+    "SOURCES/trajectories/manifest.json": "6c1d08f50486743ff54a398b5274f6d7725063168df4f9c5eab87f843bc0bab1",
+    "SOURCES/WebShop/data/items_human_ins.json": "cf78667548a71786e1d9049c24b802e48e1084ad4bb021cae56ce1f6d96954a3",
+    "SOURCES/WebShop/data/items_ins_v2_1000.json": "f88a36314a397b53b3d9c3fa5878e5f7b26d35019a51ec83fbedeca61a948f6f",
+    "SOURCES/WebShop/data/items_shuffle_1000.json": "30a4765c3a327af72d9a9a95a6b2486d516f0fa1d3ecd83681901ce82a21b269",
+    "SOURCES/WebShop/requirements.txt": "b4e83b7e9c670c724215fcb79e43f52f591de354a8f70870ba4553c88de26d2d",
+    "SOURCES/WebShop/search_engine/convert_product_file_format.py": "19dc136a6d828bd4016ec616ea0a565378ce7225b1ac60057b1929d67b4d0f03",
+    "SOURCES/WebShop/search_engine/lucene_searcher.py": "905be2081ffa4c9f93e1b106de4c012ac9677c8043dd264ae92a68dc2a287fa0",
+    "SOURCES/WebShop/web_agent_site/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "SOURCES/WebShop/web_agent_site/app.py": "f9393af973fd2d0343c8b68e89572e6139ebc8d6a2309a145c554a80284e81cb",
+    "SOURCES/WebShop/web_agent_site/attributes/annotate.py": "f64f3f8be3af15794821506014b97c1abc75424973ab9b06d4af4b9c2dec4a45",
+    "SOURCES/WebShop/web_agent_site/attributes/generate_attrs.py": "b6e079d6765966e1c244e7de31d444c17423d912d24f0ef08844c32daa2efe3a",
+    "SOURCES/WebShop/web_agent_site/engine/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "SOURCES/WebShop/web_agent_site/engine/engine.py": "9b86ffc82951124f5c4a7eb8103de14100dbee11ba8869951ed6fb8feaeef804",
+    "SOURCES/WebShop/web_agent_site/engine/goal.py": "9703c8583244e2041182eb14856186b998145ab16ce2ba9aef8cb680877c8ed5",
+    "SOURCES/WebShop/web_agent_site/engine/normalize.py": "1962113ac9e209a636d4f181b2c70544bbea59b03adca9847e48287158d794fb",
+    "SOURCES/WebShop/web_agent_site/envs/__init__.py": "7cdf100d019fd715d605ff0cd0f0d3d4285d7f7b2dbe4e4634e9a1266ab5e854",
+    "SOURCES/WebShop/web_agent_site/envs/web_agent_site_env.py": "7b3a43c0250ef2215e2ac1e613ebafbcfbea053a24fcbb773541dc634f124981",
+    "SOURCES/WebShop/web_agent_site/envs/web_agent_text_env.py": "f4efee238c2a69ad76ff5372716a16051c67ea0351c7006491834822ea9afda3",
+    "SOURCES/WebShop/web_agent_site/models/__init__.py": "06a57f9b9ff18e749dff8b9bbb69cf78819a7515fb79a414ba2c3e2ee27ed626",
+    "SOURCES/WebShop/web_agent_site/models/models.py": "229b2f2fb0feedcac84a8e7ed6484c976e4c0ccb026e22996052215c427445a7",
+    "SOURCES/WebShop/web_agent_site/templates/attributes_page.html": "f19f4e58656e3be297f9cc86b98cb04b571d84114114c07404f81e0079e3875f",
+    "SOURCES/WebShop/web_agent_site/templates/description_page.html": "77bdb3e51c647a1b009f17ff5e40c7df62c2c8fb16c43cd0f84783e20f3b2a7a",
+    "SOURCES/WebShop/web_agent_site/templates/done_page.html": "6da5b494522666f0644b948e5c2c5a0e5c5104926f3c643c7828ff653d5e8eb9",
+    "SOURCES/WebShop/web_agent_site/templates/features_page.html": "d10df82cad8c34d698a8c1e267ffd97631fe4edfcc39a89ed187362573872ac0",
+    "SOURCES/WebShop/web_agent_site/templates/item_page.html": "f6a11e5a3ffbada7cc5fbb26568ae971be84811d5d4f0d0a7043218a52906987",
+    "SOURCES/WebShop/web_agent_site/templates/results_page.html": "4d448f7ee6c21f55bc4dfcf4952e37d3594f59996988c431d23db9cd38ea2777",
+    "SOURCES/WebShop/web_agent_site/templates/review_page.html": "c1238f7ef89e186ec5817f04d6727c90ba1d41ad7481255e673920eb4804f464",
+    "SOURCES/WebShop/web_agent_site/templates/search_page.html": "fb4cdae0b21f17a33ac56a47389e96595991838461502f2fad140ef53521a601",
+    "SOURCES/WebShop/web_agent_site/utils.py": "bdd6df3b869cf3fe028169add3611d1b811ae663ae4f79520617c26b20614970",
+    "SOURCES/WooooDyy__AgentGym_tree.json": "5700700fb155e90caf3dbfa73c9382f1f8b0e8f911eb0d123bc54dd3408b59f7",
+    "SOURCES/YWZBrandon__webshop-data_metadata.json": "a62022438a294bc6d1da8a31582f76337e54e5fc8f87f51fea3a5ae6a026a637"
+  },
+  "analysis": {
+    "paired_units": "unique task/seed IDs; each method once per task; smoke/repeated instrumentation runs excluded",
+    "bootstrap_replicates": 5000,
+    "bootstrap_seed": 20261028,
+    "interval": "paired task bootstrap percentile 95%; tasks resampled within each domain",
+    "aggregate": "one-half WebShop task success rate plus one-half Wordle task success rate, regardless of different task counts",
+    "cost": "complete process CPU and wall, actual setup amortized over assigned and attempted tasks; paired task costs separately; no inferred startup uncertainty",
+    "secondary": [
+      "actual reward",
+      "planning wall and CPU per decision",
+      "process CPU and wall",
+      "setup",
+      "world-model calls",
+      "interactions",
+      "false success forecasts",
+      "sampled contract mismatch",
+      "fallback",
+      "frontier match",
+      "peak process working set"
+    ],
+    "attribution": "retain full copy, top field, journal without frontier, and WCTR; compare task actions and root candidates; no parameter tuning after results"
+  },
+  "exclusions": {
+    "prior_numeric_ids": {
+      "wordle": [
+        1,
+        11,
+        12,
+        100,
+        102,
+        104,
+        113,
+        116,
+        118,
+        122,
+        1001,
+        1006,
+        1007,
+        1009,
+        1012,
+        1014,
+        1016,
+        1018,
+        1023,
+        1024,
+        1026,
+        1035,
+        1037,
+        1041,
+        1060,
+        1062,
+        1069,
+        1081,
+        1093,
+        1095,
+        1100,
+        1110,
+        1111,
+        1120,
+        1130,
+        1133,
+        1138,
+        1142,
+        1143,
+        1152,
+        1165,
+        1198,
+        1203,
+        1223,
+        1225
+      ],
+      "webshop": [
+        0,
+        1,
+        10,
+        100,
+        103,
+        108,
+        115,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1011,
+        1012,
+        1013,
+        1014,
+        1015,
+        1016,
+        1017,
+        1018,
+        1020,
+        1035,
+        1043,
+        1044,
+        1059,
+        1069,
+        1113,
+        1123,
+        1143,
+        1147,
+        1169,
+        1186,
+        1190,
+        1213,
+        1224,
+        1228,
+        1235,
+        1236,
+        1248,
+        1258,
+        1262,
+        1263,
+        1269,
+        1271,
+        1276
+      ]
+    },
+    "webshop": [
+      {
+        "task_id": 0,
+        "reason": "smoke task"
+      }
+    ],
+    "webshop_catalog_hash": "640c783538a4abe40f86e29a0bd6cb281c678f9569407da60234723a7afc8cf8",
+    "webshop_identity": "Numeric indices are scoped to the small catalog, not globally unique. Exclude normalized instructions from all retained Stage 2 train/test observations; prior full-catalog provenance has no compatible catalog fingerprint. Retain and disclose index collisions instead of renumbering to manufacture disjointness.",
+    "wordle": "Seed is the original AgentGym task index; 100 distinct previously unobserved seed IDs. This LMRL environment resamples from a 40-word vocabulary rather than holding one target fixed."
+  }
+}
