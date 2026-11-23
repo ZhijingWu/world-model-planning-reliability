@@ -73,13 +73,11 @@ The installation command needs an existing `pip`/`setuptools` build toolchain. A
 
 [Optional original experiment harnesses](experiments/README.md) require independently obtained assets. Full native reruns were not performed for this publication and are not self-contained in this small repository. Raw environment observations, product data, datasets, checkpoints, private logs and original Git history are excluded.
 
-## A proposed next question
+## Can a speculative write change the planner's first action?
 
-**Which simulator errors can change the action a planner chooses?**
+In the frozen SciWorld study, Raw and Full Copy chose different first actions on one of eleven selected states. On that state, task 1975, Raw changed the three action scores from `[11, 12, 12]` to `[12, 12, 12]`. The fixed tie rule then chose action 0 in place of action 1 in all six visit orders. Isolating a single writing edge restored the next sibling's input and the reference first action in two orders. In four orders the sibling input recovered and the decision difference persisted. [Worked example and all eleven states](studies/sciworld-fixed-work-v1/public/report.md)
 
-The SciWorld proposal specifies eleven archived state identifiers, the paired interventions and the evidence needed to attribute a change in the chosen action to a parent write. The study awaits runtime review. [Fixed-work SciWorld proposal](proposals/sciworld-fixed-work.md)
-
-Proposed future work, not executed: fix one initial state, three candidate actions, a leaf-value rule, and canonical tie-breaking. Reset for each of six root-action permutations; keep child order fixed and evaluate depth two with exactly 12 expansions and no early stopping. Compare unprotected execution, Full Copy and WCTR. Start deterministic; then pair five predeclared controllable random tapes keyed to action history. Measure ranking inversions, chosen-action flips against Full Copy, and parent fingerprints. Within-tape order effects require a stable reference before being attributed to contamination; Full Copy's across-tape variation supplies the legitimate-stochasticity control. Record CPU/setup separately while holding expansion budget and action set fixed.
+Across 66 paired orders, Raw reported 18 exact goals that failed independent replay. Full Copy and WCTR reported zero. The repaired WCTR used Full Copy on all 792 search transitions. These are measurements over the released SciWorld program on an outcome-selected bank. A prospective bank with a predeclared scoring rule would test how often this mechanism recurs. Native environment utility and the historical note's stochastic extension remain open. [Reproduction](studies/sciworld-fixed-work-v1/README.md) · [Frozen proposal](proposals/sciworld-fixed-work.md)
 
 This connects execution integrity to decision-relevant model errors in world-model-based reasoning and planning. No UC San Diego affiliation, MixLab endorsement or validation by Prof. Zhiting Hu is implied.
 
