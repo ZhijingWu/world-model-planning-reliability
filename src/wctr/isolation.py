@@ -428,6 +428,42 @@ class Journal:
             elif isinstance(obj,list):obj[:]=snapshot
             else:obj.clear();obj.update(snapshot)
 
+    def detach_exception(self, error):
+        """Keep public error data at the values reached after model cleanup."""
+        fields = []
+        pending = [error]
+        seen = set()
+        while pending:
+            current = pending.pop()
+            if current is None or id(current) in seen:
+                continue
+            seen.add(id(current))
+            fields.append((current, 'args', current.args))
+            if isinstance(current, AttributeError) and current.obj is not None:
+                fields.append((current, 'obj', current.obj))
+            pending.extend((current.__context__, current.__cause__))
+        values = [value for _, _, value in fields]
+        pending = values.copy()
+        seen.clear()
+        while pending:
+            value = pending.pop()
+            kind = type(value)
+            if kind in _SCALAR_TYPES or id(value) in seen:
+                continue
+            seen.add(id(value))
+            if kind is types.SimpleNamespace:
+                pending.append(vars(value))
+            elif kind is dict:
+                pending.extend(value.keys())
+                pending.extend(value.values())
+            elif kind in (list, tuple, set, frozenset):
+                pending.extend(value)
+            else:
+                self.reject("WCTR cannot detach an opaque exception payload before rollback")
+        # One memo preserves aliases within and across exceptions in the chain.
+        for (owner, name, _), detached in zip(fields, copy.deepcopy(values)):
+            setattr(owner, name, detached)
+
 def signature(action):return str(action).strip().split(' ',1)[0].lower()
 
 def pattern(path):return tuple('*' if isinstance(k,int) else k for k in path)
@@ -546,6 +582,10 @@ class Adapter:
                 self.remember(state,action,nodes,paths,journal.saved)
                 output,n=alias_fork(output,set(journal.saved),full_copy=self._full_copy);self.copied+=n
             return output
+        except BaseException as error:
+            if journal.saved:
+                journal.detach_exception(error)
+            raise
         finally:
             try:
                 journal.restore()

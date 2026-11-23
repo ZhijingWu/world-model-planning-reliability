@@ -215,6 +215,65 @@ class Model:
                 self.assertIs(parent["also_values"], shared)
                 self.assertEqual(shared, [7])
 
+    def test_attribute_error_receiver_and_context_survive_rollback(self):
+        receivers = {
+            "list": 'state["alias"]',
+            "namespace": 'SimpleNamespace(item=state["events"], also=state["alias"])',
+            "iterator": 'enumerate(state["events"])',
+        }
+        for kind, expression in receivers.items():
+            for wrapped in (False, True):
+                with self.subTest(kind=kind, wrapped=wrapped):
+                    self.check_attribute_error(kind, expression, wrapped)
+
+    def check_attribute_error(self, kind, expression, wrapped):
+        handler = '        except Exception:\n            raise ValueError("outer")\n' if wrapped else ""
+        source = f"""from types import SimpleNamespace
+class Model:
+    def predict_belief(self, state, action):
+        receiver = {expression}
+        try:
+            state["events"].append(1)
+            receiver.get(3)
+{handler}        finally:
+            state["alias"].append(2)
+"""
+        raw = raw_model(source)
+        adapter = Adapter(compile_source(source, "attribute_error.py")["Model"]())
+        shared = []
+        events = [shared, shared]
+        parent = {"events": events, "alias": events}
+
+        def snapshot(transition, state):
+            try:
+                transition(state, "run")
+            except Exception as exc:
+                if kind == "iterator" and explicit_rejection(exc):
+                    return "explicitly rejected"
+                error = exc.__context__ if wrapped else exc
+                self.assertIs(type(error), AttributeError)
+                # AttributeError stores its receiver outside args. Its aliases
+                # and the later finally write are visible to the native caller.
+                if kind == "namespace":
+                    payload = (error.obj.item, error.obj.also)
+                elif kind == "iterator":
+                    payload = list(error.obj)
+                else:
+                    payload = error.obj
+                return type(exc), exc.args, error.args, error.name, describe(payload)[0]
+            self.fail("model did not raise")
+
+        expected = snapshot(raw.predict_belief, copy.deepcopy(parent))
+        actual = snapshot(adapter.transition, parent)
+        self.assertNotEqual(expected, "explicitly rejected")
+        if actual != "explicitly rejected":
+            self.assertEqual(actual, expected)
+        self.assertIs(parent["events"], events)
+        self.assertIs(parent["alias"], events)
+        self.assertEqual(len(events), 2)
+        self.assertIs(events[0], shared)
+        self.assertIs(events[1], shared)
+
     def test_model_import_parameter_class_and_closure_names(self):
         source = """from operator import neg as _wctr_bind_mutator
 _wctr_private = None
