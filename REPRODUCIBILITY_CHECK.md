@@ -4,6 +4,14 @@ The current regression suite exercises the repaired package. The historical evid
 
 ## Commands
 
+Run the complete gate in a checkout with full Git history using one standard-library command:
+
+```sh
+python tools/release_gate.py
+```
+
+For implementation `dd3aa05f9fc064a5293650e75a55f00308495fbb` this passed locally on Windows CPython 3.10.21, 3.11.16, 3.12.13 and 3.13.5. Each run executed 44 tests, the branch-isolation example, the public evidence verifier and both frozen-runtime import checks. It checked the bytes of 47 publication files, including the relocated runtime, and checked the frozen SciWorld proposal against `9e28df1`. The workflow runs the same command on Windows and Ubuntu for all four Python minors. [AST semantic matrix](docs/AST_COVERAGE.md) · [GitHub Actions workflow](.github/workflows/release-gate.yml)
+
 From the repository root, with Python 3.10+ and pip/setuptools available:
 
 ```sh
@@ -22,7 +30,7 @@ The core, fixtures and evidence verifier import only the Python standard library
 
 At implementation commit `eb913f4d620ce5ff412d1cbab717b144b45da548`, all 26 tests, the branch-isolation example and the public evidence verifier passed on Windows using CPython 3.10.21, 3.11.16, 3.12.13 and 3.13.5. Each interpreter ran with `-B -S -W error` and the repository's `src` directory on `PYTHONPATH`. The suite comprises the original seven tests, ten audit regressions, six AST compatibility tests and three entry-scan tests. The four verifier runs recomputed previously recorded evidence.
 
-Separate synthetic timings compare the original runtime, the first repair, the current WCTR and Journal Only implementations, and raw execution on a deep copy. The measurement record includes the fixture and runtime digests, batch durations, individual-call samples and full-copy counts. [Reproduction command, diagnostic measurements and limitations](diagnostics/README.md)
+Separate synthetic timings compared the original runtime, the first repair, the WCTR and Journal Only implementations at `eb913f4`, and raw execution on a deep copy. The later AST gate has its own cost measurements. [Earlier diagnostic](diagnostics/README.md) · [AST gate costs](diagnostics/ast-gate/README.md)
 
 ## Initial correctness repair at `7e57af85` on 2026-11-23
 

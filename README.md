@@ -38,7 +38,7 @@ flowchart TD
     I --> J[Reusable parent and returned successor]
 ```
 
-Calibration initializes the mutation paths for each action signature. During later rollouts, the journal captures unexpected supported writes and the adapter adds the observed paths for future calls. The repaired runtime has separate synthetic measurements for read-only and sparse-write transitions. [Supported-state contract](docs/SUPPORTED_STATE.md) · [Runtime costs and controls](diagnostics/README.md)
+Calibration initializes the mutation paths for each action signature. During later rollouts, the journal captures unexpected supported writes and the adapter adds the observed paths for future calls. The AST repair has separate synthetic measurements for reads, sparse writes and the two assignment forms that now select Full Copy. [Supported-state contract](docs/SUPPORTED_STATE.md) · [AST repair costs and controls](diagnostics/ast-gate/README.md)
 
 ## Selected frozen evidence
 
@@ -57,6 +57,8 @@ These measurements belong to the historical implementation published at [`3c9022
 **Native setting:** released generated models; small 1k-product WebShop catalog, 12 final human goals (smoke excluded); official AgentGym/LMRL seeded 40-word stochastic Wordle, 100 seed tasks. A Wordle seed is not a fixed target word: the released game resamples from a filtered vocabulary. The released model's hardcoded `target_word="frame"` was retained. Each domain/method had a 180 CPU-second lifetime allowance including setup, verification, profiling, serialization and normal exit; package provisioning was unmeasured. All eight workers finished within allowance. See [evaluation boundaries](docs/EVALUATION.md).
 
 ## Run the lightweight checks
+
+From a Git checkout with full history, run `python tools/release_gate.py` for the AST semantic suite, branch example, evidence hashes and historical import checks. The current selective Python contract and per-form Full Copy policy are recorded in the [AST coverage matrix](docs/AST_COVERAGE.md).
 
 Python 3.10 or newer; the core, tests, example and evidence verifier use only the standard library. From the repository root:
 
