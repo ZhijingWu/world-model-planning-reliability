@@ -1,8 +1,10 @@
 # World Model Planning Reliability
 
-**A world model can return the correct successor and still corrupt the planner’s next branch.** In a released SciWorld program, a transition shallow-copied a belief and wrote through its shared `object_states` dictionary. On task 1975, in visit order `[0, 1, 2]`, the writing edge returned the same value as independent Full Copy. Its sibling then read a different parent, scored 12 matching goal fields instead of 11, and changed the first action selected by search. Copying just the writing edge restored the reference first action in two of six visit orders. The other four remained unresolved. [Task 1975 trace](studies/sciworld-fixed-work-v1/public/report.md)
+**Can a simulated action return the expected successor and still change the planner’s first choice?** On SciWorld task 1975, a transition returned the same successor as an independent full copy but wrote into its parent’s shared `object_states` dictionary. The next sibling then matched 12 goal fields instead of 11, changing the planner’s first action. The figure traces the write and shows what happened when only that edge ran on a copy. [Task 1975 trace](studies/sciworld-fixed-work-v1/public/report.md)
 
-**How often did this change a decision on held-out states?** Raw and Full Copy chose different first actions on **7 of 64** prospectively sampled source-item representatives. The exact 95% interval for the 231-member sampling frame is **5.63%–19.48%**. Fifteen states had changed leaf scores. All reference decisions involved tied maxima, and using the predeclared highest-index tie rule reduced the number of affected states to three. The endpoint measures choices inside the executable program. [Prospective report](studies/sciworld-prospective-v1/report.md) · [Sampling and decision rules](studies/sciworld-prospective-v1/protocol.md)
+**How often did the first action change?** On **7/64** prospectively sampled states, the live-parent and full-copy searches chose different actions in at least one of six visit orders under the primary, lowest-index tie rule (exact 95% interval **5.63%–19.48%** for the 231 eligible representatives). Isolating one traced write restored the affected sibling’s input in all 28 differing orders. It restored the first action in **10/28**. The other **18/28** still differed. [Prospective report](studies/sciworld-prospective-v1/report.md)
+
+**What does the comparison establish?** WCTR, a restricted Python runtime for isolating search branches, matched the independent Full Copy reference. It used Full Copy on **every SciWorld search call**, so these runs establish no selective-copy speed advantage. All reference maxima were tied, and breaking ties by highest index gave **3/64** affected states. Candidate commands came from entire offline trajectories and could first appear after the sampled step. The study measures decisions inside one released program with synthetic goals. Online action availability and native task success remain open. [Sampling and decision rules](studies/sciworld-prospective-v1/protocol.md) · [Recorded outcomes](studies/sciworld-prospective-v1/public/analysis.json)
 
 [Zhijing Wu](https://zhijingwu.github.io/) · Sichuan University · Independent research
 
@@ -12,7 +14,7 @@
 
 ## The comparison
 
-Each planner used the same program, candidates, goal and fixed search tree. **Raw** reused its live parent. **Full Copy** ran the original model on a fresh deep copy at every edge. **WCTR**, a restricted Python runtime, can pre-copy likely write targets learned from earlier calls, journal unexpected supported writes, and detach a successor before restoring its parent. On the SciWorld program it took the Full Copy fallback on every search call. The empirical result concerns state isolation. The selective runtime has separate regression and cost evidence. [Runtime contract](docs/SUPPORTED_STATE.md) · [Frozen release](https://github.com/ZhijingWu/world-model-planning-reliability/tree/wctr-runtime-repair-2026-11) · [Implementation](src/wctr/isolation.py)
+Each planner used the same program, candidates, goal and fixed search tree. **Raw** reused its live parent. **Full Copy** ran the original model on a fresh deep copy at every edge. **WCTR** (Witness-Compiled Transactional Rollouts) can pre-copy likely write targets learned from earlier calls, record unexpected supported writes, and detach a successor before restoring its parent. Its selective path has separate regression and cost evidence. [Runtime contract](docs/SUPPORTED_STATE.md) · [Frozen release](https://github.com/ZhijingWu/world-model-planning-reliability/tree/wctr-runtime-repair-2026-11) · [Implementation](src/wctr/isolation.py)
 
 | Question | Selected case bank | Prospective sample |
 | --- | ---: | ---: |
@@ -22,7 +24,7 @@ Each planner used the same program, candidates, goal and fixed search tree. **Ra
 | Raw search claims of exact success that failed independent replay | 18 / 66 | 24 / 384 |
 | WCTR search calls using Full Copy | 792 / 792 | 4,608 / 4,608 |
 
-A state counts once if any of its six orders changes the first action. On the prospective bank, all 28 interventions restored the measured sibling input. Eighteen left the chosen action different. The original case’s two successful interventions recovered the first action only. Full Copy and WCTR had zero false goals in both banks. [Original records](studies/sciworld-fixed-work-v1/public/verification.json) · [Prospective records](studies/sciworld-prospective-v1/public/analysis.json)
+In the selected case bank, both successful interventions recovered the first action, while the second action still differed. In the prospective bank, 15/64 states showed a changed leaf score, and every state with a changed first action had at least one unresolved order. Full Copy and WCTR had zero false goals in both banks. [Original records](studies/sciworld-fixed-work-v1/public/verification.json) · [Prospective records](studies/sciworld-prospective-v1/public/analysis.json)
 
 ## Reproduce the evidence
 

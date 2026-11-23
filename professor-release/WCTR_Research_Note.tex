@@ -41,10 +41,12 @@ were executed changed the selected first action on \textbf{7 of 64} sampled stat
 \src{\vtwo public/analysis.json}{Prospective results}
 
 \heading{Follow one write through a search}
-SciWorld starts a transition with a shallow copy of its belief dictionary. A change to
+PatchWorld generates executable models from trajectories. Its released SciWorld
+model starts a transition with a shallow copy of the belief dictionary. A write to
 the nested \texttt{object\_states} mapping can therefore reach the caller. In the
-retained case below, the writing edge returned the same successor as a fresh deep
-copy. The next sibling read a different input and gained one goal-field match.
+case below, the writer returned the same successor as Full Copy, but the next
+sibling read a different input and gained one goal-field match.
+\src{https://arxiv.org/abs/2605.30880v4}{Bai et al., 2026}\enspace
 \src{\rawmodel}{Model source}\enspace\src{\vone public/report.md}{Case evidence}
 
 \vspace{2pt}
@@ -62,7 +64,12 @@ The selection procedure left the frequency of this mechanism on new states open.
 \heading{An independent reference and an isolation runtime}
 \textbf{Raw} calls the original model on the live parent. \textbf{Full Copy} calls the
 same model on a fresh deep copy at every edge. This defines a reference for the
-program's own dynamics. \textbf{WCTR}, short for Witness-Compiled Transactional Rollouts,
+program's own dynamics. OpenSpiel's \texttt{Child} method likewise clones the
+parent before applying an action in a game.
+\src{https://arxiv.org/abs/1908.09453}{Lanctot et al., 2019}\enspace
+\src{https://github.com/google-deepmind/open_spiel/blob/82b5aac85c577b6911f9a912544e2a589dacc2f1/open_spiel/spiel.h\#L562-L570}{OpenSpiel interface}
+
+\textbf{WCTR}, short for Witness-Compiled Transactional Rollouts,
 uses observed write paths to copy selected containers and aliases, records unexpected
 supported writes, and restores the parent. Uncertain inputs or source forms can trigger
 Full Copy. The contract covers trusted, deterministic, state-confined models with
@@ -72,11 +79,13 @@ plain-data results. \src{\runtime docs/SUPPORTED_STATE.md}{Released contract}
 \fontsize{11.5}{16.4}\selectfont
 \eyebrow{PROSPECTIVE STUDY \enspace/\enspace SCIWORLD}
 \titleline{How often did the first action change?}
-The protocol froze one representative state per eligible source item, excluded the
-original trajectories and overlapping source items, then sampled without replacement.
-Each arm searched the same three root actions and three children per root in six
-root visit orders, using exactly 12 transitions per order. A root received its best
-leaf's count of matching goal fields. The lowest candidate index broke ties.
+The protocol excluded the original trajectories and overlapping source items, then
+sampled one preassigned state per item without replacement. Candidate commands came
+from the whole logged trajectory. A command could first appear later and be unavailable
+at the root in an online environment. A model walk generated each synthetic goal.
+All arms evaluated three roots and three children per root, using 12 transitions
+for each of six visit orders. The best leaf's count of matching goal fields scored
+its root. The primary rule broke ties by lowest candidate index.
 \src{\vtwo protocol.md}{Protocol}\enspace\src{\vtwo public/manifest.json}{Frozen sample}
 
 \heading{Seven of 64 states changed the selected first action}
@@ -122,13 +131,14 @@ In earlier time-limited program search, WCTR completion relative to Full Copy ro
 by 17.5 percentage points on WebShop and fell by 9.2 on Wordle. Native completion
 tied across four protected methods at 6/12 WebShop goals and 43/100 Wordle seeds.
 The 33,692 native WCTR checks belong to that historical runtime.
-A separate pre-release diagnostic found a higher first-append cost and a lower
-calibrated-append cost than Full Copy on the same 64-row fixture.
+A pre-release 64-row diagnostic found a higher first-append cost and a lower
+calibrated-append cost than Full Copy on the same fixture.
 \src{\original CLAIMS_AND_LIMITATIONS.md}{Historical evidence}\enspace
 \src{\runtime diagnostics/ast-gate/README.md}{Cost diagnostic}
 
-Next, use a separate development set to choose a scoring rule that yields positive
-gaps between the reference winner and runner-up. Freeze it before testing whether
-contamination can overcome those gaps on new states and independently generated
-models. Native interaction would test whether the changed actions affect task success.
+Value-aware model estimation motivates measuring errors through their decision
+consequences. On separate development data, select a score that yields positive
+reference winner margins. Freeze it, then test whether contamination can reverse
+those margins on new models. Native interaction would test whether different
+actions change task success. \src{https://proceedings.mlr.press/v54/farahmand17a.html}{Farahmand et al., 2017}
 \end{document}
