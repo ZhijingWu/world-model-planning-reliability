@@ -1,6 +1,6 @@
 {
   "src/wctr/__init__.py": "129fff7217dfcad0b67c2cb86b5618905e15052bc7c9273189e4f05a4f3e9783",
-  "src/wctr/isolation.py": "8632d993843612b4facf88a904dbc60b095c74e64eeffe86e979b053f292d9c8",
+  "src/wctr/isolation.py": "4ca52ea1cf27dc8fc38b27957ea2c8a935d49dd508560b1192f02bb46728fb8a",
   "tests/test_isolation.py": "00cd1467c033cf542bce63ebb21c32bd5b2e269156e34a4e14c4394e1e695f40",
   "examples/branch_isolation.py": "0070db3bb1b85422c0821fcfed241cfafb1be040d69e101a471e1c8de2a54359",
   "experiments/stage2/benchmark.py": "d0e9e95fb5d4ca04fef50cf9008b529e9b11e8993b89b242c2e35d13a3855792",
@@ -26,5 +26,7 @@
   "third_party/PatchWorld/patchworld/worldmodel_base.py": "a888d27c3577fb61cf730be2a22c2b77910c2d3a776b73e1ee07fd2cf369c6d2",
   "tests/test_runtime_regressions.py": "bd4e5c2578be487f0688537810972a03997452b3feafca28090d37eb01b3e503",
   "experiments/frozen/isolation.py": "4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612",
-  "experiments/frozen/__init__.py": "53c666f02c32346ad2d6bd6c9f1e48b8103d904718d4db8c571a986c4fb270a8"
+  "experiments/frozen/__init__.py": "53c666f02c32346ad2d6bd6c9f1e48b8103d904718d4db8c571a986c4fb270a8",
+  "tests/test_ast_compatibility.py": "a276f099c373b6ec050a6c75a548f8e85190c76720ea42b21d7694400b7bcced",
+  "tests/test_entry_scan.py": "02a211092050fce2e64c42faa412cf412d0fe44df417ef35822c260a204d507e"
 }

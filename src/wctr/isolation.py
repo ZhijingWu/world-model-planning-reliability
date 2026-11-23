@@ -17,23 +17,58 @@ MUTATORS={'append','extend','insert','pop','remove','clear','update','setdefault
           'add','discard','difference_update','intersection_update',
           'symmetric_difference_update','reverse','sort','popitem'}
 
-def children(x):
-    if isinstance(x,dict):return list(x.items())
-    if isinstance(x,(list,tuple)):return list(enumerate(x))
-    return []
+_PLAIN_CONTAINERS = (dict, list, tuple)
+_GRAPH_CONTAINERS = (dict, list, tuple, set)
 
-def graph(root):
-    nodes={};parents=defaultdict(set);paths={};stack=[(root,())]
+
+def _child_items(obj):
+    if isinstance(obj, dict):
+        return obj.items()
+    if isinstance(obj, (list, tuple)):
+        return enumerate(obj)
+    return ()
+
+
+def children(x):
+    return list(_child_items(x))
+
+
+def graph(root, *, stop_on_fallback=False):
+    """Index all reverse edges and one witness path per container, in DFS order."""
+    nodes, parents, paths = {}, defaultdict(set), {}
+    stack = [(root, ())] if isinstance(root, _GRAPH_CONTAINERS) else []
     while stack:
-        x,path=stack.pop()
-        if not isinstance(x,(dict,list,set,tuple)):continue
-        oid=id(x)
-        if oid in nodes:continue
-        nodes[oid]=x;paths[oid]=path
-        for k,v in children(x):
-            if isinstance(v,(dict,list,set,tuple)):
-                parents[id(v)].add(oid);stack.append((v,path+(k,)))
-    return nodes,parents,paths
+        obj, path = stack.pop()
+        oid = id(obj)
+        if oid in nodes:
+            continue
+        if stop_on_fallback and type(obj) not in _PLAIN_CONTAINERS:
+            return None
+        nodes[oid] = obj
+        paths[oid] = path
+        for key, child in _child_items(obj):
+            if isinstance(child, _GRAPH_CONTAINERS):
+                parents[id(child)].add(oid)
+                stack.append((child, path + (key,)))
+    return nodes, parents, paths
+
+
+def _needs_full_copy(root):
+    """Check the live input without allocating reverse edges or witness paths."""
+    seen = set()
+    stack = [root]
+    while stack:
+        obj = stack.pop()
+        kind = type(obj)
+        if kind not in _PLAIN_CONTAINERS:
+            if isinstance(obj, _GRAPH_CONTAINERS):
+                return True  # Includes sets, defaultdicts and container subclasses.
+            continue
+        oid = id(obj)
+        if oid not in seen:
+            seen.add(oid)
+            stack.extend(obj.values() if kind is dict else obj)
+    return False
 
 class _TupleCycle(Exception):
     """A tuple was revisited before its copy could be constructed."""
@@ -89,24 +124,56 @@ def delete(obj,key):
 def mutate(method, /, *args, **kwargs):
     journal = CURRENT.get()
     if journal is not None:
-        if isinstance(method, types.MethodDescriptorType) and method.__objclass__ in (list, dict, set):
+        if type(method) is types.MethodDescriptorType and method.__objclass__ in (list, dict, set):
             # list.append(xs, value) writes to xs, even if list has a different name.
-            if not args:
-                return method(*args, **kwargs)  # Let the descriptor report its missing receiver.
+            if not args or not issubclass(type(args[0]), method.__objclass__):
+                # A native argument error cannot mutate state and may be caught by the model.
+                return method(*args, **kwargs)
             receiver = args[0]
-        elif isinstance(method, types.BuiltinMethodType):
+        elif type(method) is types.BuiltinMethodType:
             receiver = method.__self__
         else:
-            raise TypeError("WCTR cannot track the receiver of this mutator")
+            journal.reject("WCTR cannot track the receiver of this mutator")
         if type(receiver) not in (list, dict, set, defaultdict):
-            raise TypeError("WCTR mutators require a built-in container receiver")
+            journal.reject("WCTR mutators require a built-in container receiver")
         journal.record(receiver)
     return method(*args, **kwargs)
 
 
+class _GuardedMutator(partial):
+    def __get__(self, instance, owner=None):
+        # A callback captured in a class body retains the original descriptor binding.
+        method = self.args[0]
+        get = getattr(type(method), '__get__', None)
+        if get is None:
+            return self
+        bound = get(method, instance, owner)
+        return self if bound is method else bind_mutator(bound)
+
+
 def bind_mutator(method):
-    # Keep a method captured as a callback guarded when it is eventually invoked.
-    return partial(mutate, method) if callable(method) else method
+    if type(method) is _GuardedMutator or not callable(method):
+        return method
+    return _GuardedMutator(mutate, method)
+
+
+def _check_pattern_subject(subject):
+    journal = CURRENT.get()
+    if journal is not None:
+        journal.reject("WCTR cannot track a mutator captured implicitly by a class pattern")
+    return subject
+
+
+def _captures_mutator(pattern):
+    for node in ast.walk(pattern):
+        if isinstance(node, ast.MatchClass):
+            for attr, subpattern in zip(node.kwd_attrs, node.kwd_patterns):
+                if attr in MUTATORS and any(
+                    isinstance(part, ast.MatchAs) and part.name is not None
+                    for part in ast.walk(subpattern)
+                ):
+                    return True
+    return False
 
 OPS={ast.Add:operator.iadd,ast.Sub:operator.isub,ast.Mult:operator.imul,
      ast.BitOr:operator.ior,ast.BitAnd:operator.iand}
@@ -116,6 +183,23 @@ def augment(obj,key,rhs,op):
     old=obj[key];value=rhs();_record(obj);_record(old);obj[key]=OPS[op](old,value)
 
 class Instrument(ast.NodeTransformer):
+    def visit(self, node):
+        # Pattern attributes are dotted names in Python's grammar. The enclosing
+        # match subject, case guards and case statements are ordinary executable nodes.
+        if isinstance(node, ast.pattern):
+            return node
+        return super().visit(node)
+
+    def visit_Match(self, node):
+        node = self.generic_visit(node)
+        if any(_captures_mutator(case.pattern) for case in node.cases):
+            # Python can bind names during a partially failed pattern. Guard
+            # before any pattern runs so a raw method cannot escape into a local.
+            subject = node.subject
+            check = ast.Call(ast.Name('_wctr_check_pattern_subject', ast.Load()), [subject], [])
+            node.subject = ast.copy_location(check, subject)
+        return node
+
     def allocation(self,node):
         return ast.copy_location(ast.Call(ast.Name('_wctr_private',ast.Load()),[node],[]),node)
     def visit_Dict(self,node):return self.allocation(self.generic_visit(node))
@@ -156,6 +240,7 @@ class Instrument(ast.NodeTransformer):
 def compile_source(source,filename):
     tree=Instrument().visit(ast.parse(source,filename));ast.fix_missing_locations(tree)
     env={'_wctr_write':write,'_wctr_delete':delete,'_wctr_bind_mutator':bind_mutator,'_wctr_private':private,
+         '_wctr_check_pattern_subject':_check_pattern_subject,
          '_wctr_augment':augment,**{k.__name__:k for k in OPS}}
     exec(compile(tree,filename,'exec'),env)
     return env
@@ -163,6 +248,11 @@ def compile_source(source,filename):
 class Journal:
     def __init__(self,root,pregraph=None,private_ids=None):
         self.root=root;self.data=pregraph;self.saved={};self.private=private_ids or set()
+        self.rejection = None
+    def reject(self, reason):
+        if self.rejection is None:
+            self.rejection = reason
+        raise TypeError(reason)
     def ensure_graph(self):
         if self.data is None:self.data=graph(self.root)
         return self.data
@@ -239,19 +329,33 @@ class Adapter:
             return output
         # A set's pop/iteration order can change on deepcopy; defaultdict reads can
         # insert keys. Choose the reference route before the model makes any writes.
-        pregraph = graph(state)
-        if self.dd_fallback or any(isinstance(obj, (set, defaultdict)) for obj in pregraph[0].values()):
+        witnesses = ()
+        if self.method == 'wctr':
+            witnesses = self.frontiers[signature(action)]
+        elif self.method == 'topfield':
+            witnesses = self.top_fields[signature(action)]
+
+        pregraph = None
+        fallback = self.dd_fallback
+        if not fallback:
+            if witnesses:
+                pregraph = graph(state, stop_on_fallback=True)
+                fallback = pregraph is None
+            else:
+                # Journal.record builds the index before the first parent write.
+                fallback = _needs_full_copy(state)
+        if fallback:
             underlying=getattr(self.model,'_wctr_raw_model',self.model)
             return underlying.predict_belief(self._full_copy(state),action)
         inputs=state
         private_ids=set()
-        if self.method=='wctr':
-            target=match_targets(state,self.frontiers[signature(action)],action)
+        if self.method=='wctr' and witnesses:
+            target=match_targets(state,witnesses,action)
             if target:
                 inputs,n=alias_fork(state,target,pregraph,private_ids,full_copy=self._full_copy);self.copied+=n
-        elif self.method=='topfield':
+        elif self.method=='topfield' and witnesses:
             target=set()
-            for k in self.top_fields[signature(action)]:
+            for k in witnesses:
                 obj=state if k is None else state.get(k)
                 if isinstance(obj,(dict,list,set,tuple)):target.update(graph(obj)[0])
             if target:
@@ -260,6 +364,10 @@ class Adapter:
         journal=Journal(state,pregraph,private_ids);token=CURRENT.set(journal)
         try:
             output=self.model.predict_belief(inputs,action)
+            # Model code may catch TypeError; it cannot turn an unsupported call
+            # into a successful speculative transition or an online witness.
+            if journal.rejection is not None:
+                raise TypeError(journal.rejection)
             if journal.saved:
                 self.deopts+=1;self.sites+=len(journal.saved)
                 nodes,parents,paths=journal.ensure_graph()
