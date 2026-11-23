@@ -1,6 +1,6 @@
 # Public packaging changes
 
-Frozen originals were read-only. `src/wctr/isolation.py` is byte-identical to the frozen Stage 2/3 core, SHA-256 `4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612`. The seven test bodies are unchanged; only their import points to `wctr.isolation`. No planner parameter or generated-model dynamics was tuned for this release.
+The Stage 2/3 studies used the historical runtime in [publication commit 3c902203](https://github.com/ZhijingWu/world-model-planning-reliability/tree/3c9022030323bd22e05b3f5276531eaa542cb1eb). Its exact bytes are now in [experiments/frozen/isolation.py](../experiments/frozen/isolation.py), SHA-256 `4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612`. Both historical experiment entry points import this file through a digest-checked loader. The installable runtime in [src/wctr/isolation.py](../src/wctr/isolation.py) includes subsequent repairs and is exercised by the current unit tests.
 
 | File(s) | Adaptation |
 | --- | --- |
@@ -14,6 +14,6 @@ Frozen originals were read-only. `src/wctr/isolation.py` is byte-identical to th
 | Public results/protocol | Numerical projections and omission of one excluded smoke instruction; documented in `results/README.md` and provenance. |
 | Note source package | Exact final PDF/manuscript/style/figures/reference metadata; replaces private evidence/provenance with public-safe metadata and excludes compilation logs. |
 
-The retained frozen protocols still identify original implementation/source hashes, including omitted files. Public adapted files are not claimed to have those original hashes. `docs/PROVENANCE.json` records original and public hashes and transformations; `docs/public_source_hashes.json` hashes the public Python source. New example/verification/setup guidance are packaging work, not new experimental evidence.
+The frozen protocols and [original provenance ledger](PROVENANCE.json) retain the paths and hashes from publication. The evidence verifier resolves the ledger's original `src/wctr/isolation.py` entry to the archived runtime above. The [current source manifest](public_source_hashes.json) covers both runtimes and the import shims. The [historical source manifest](https://github.com/ZhijingWu/world-model-planning-reliability/blob/3c9022030323bd22e05b3f5276531eaa542cb1eb/docs/public_source_hashes.json) identifies the original packaging files.
 
 Original report generators, acquisition probes, intermediate experiments, raw traces, full environment copies, profiling logs and old source ZIPs are omitted to keep this release small and avoid private paths/third-party text. Reconstructing completed aggregate results and testing the core is self-contained; exact native re-execution depends on external assets and a compatible runtime.

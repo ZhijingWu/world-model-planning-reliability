@@ -1,4 +1,4 @@
-"""Verify completed archived results. Does not run models or environments.
+"""Verify the historical Stage 2/3 records from public commit 3c902203.
 
 The percentile calculation matches NumPy's default linear quantile used by the
 frozen analysis. Source-item identifiers are hashed labels, not observations.
@@ -148,8 +148,13 @@ def integrity():
     for name, expected in read_json('docs/public_source_hashes.json').items():
         check(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==expected, 'source hash: '+name)
     for p in read_json('docs/PROVENANCE.json'):
-        check(hashlib.sha256((ROOT/p['public_path']).read_bytes()).hexdigest()==p['public_sha256'], 'provenance: '+p['public_path'])
-    check(hashlib.sha256((ROOT/'src/wctr/isolation.py').read_bytes()).hexdigest()=='4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612', 'frozen core')
+        # The original publication ledger names the pre-repair package location.
+        name = p['public_path']
+        archived_path = 'experiments/frozen/isolation.py' if name == 'src/wctr/isolation.py' else name
+        check(hashlib.sha256((ROOT/archived_path).read_bytes()).hexdigest()==p['public_sha256'], 'provenance: '+name)
+    frozen_hash = read_json('experiments/stage2/FROZEN_PROTOCOL.json')['source_hashes']['isolation.py']
+    check(frozen_hash == '4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612', 'frozen protocol identifier')
+    check(hashlib.sha256((ROOT/'experiments/frozen/isolation.py').read_bytes()).hexdigest()==frozen_hash, 'frozen core')
     check(hashlib.sha256((ROOT/'note/Zhijing_Wu_World_Model_Planning_Note_Final.pdf').read_bytes()).hexdigest()=='4d29fead79bf244b57198abc3d9c04af1f338a85d546c5b0dbd1d9a19e4479d1', 'exact final PDF')
     print('PASS: public source/provenance hashes; byte-identical frozen core and final PDF.')
 
@@ -158,7 +163,8 @@ def main():
     integrity()
     stage2()
     stage3()
-    print('Completed-result verification only. No new rollout, environment evaluation or inference was performed.')
+    print('Archival verification: 33,692 WCTR checks belong to the frozen runtime at 3c902203.')
+    print('Run the current package regression suite separately: python -m unittest discover -s tests -v')
 
 
 if __name__ == '__main__':

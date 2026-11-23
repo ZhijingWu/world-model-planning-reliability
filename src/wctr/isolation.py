@@ -10,6 +10,7 @@ from __future__ import annotations
 import ast,copy,operator,types,pickle
 from collections import defaultdict
 from contextvars import ContextVar
+from functools import partial
 
 CURRENT=ContextVar('wctr_journal',default=None)
 MUTATORS={'append','extend','insert','pop','remove','clear','update','setdefault',
@@ -34,7 +35,11 @@ def graph(root):
                 parents[id(v)].add(oid);stack.append((v,path+(k,)))
     return nodes,parents,paths
 
-def alias_fork(root,targets,pregraph=None,private_out=None):
+class _TupleCycle(Exception):
+    """A tuple was revisited before its copy could be constructed."""
+
+
+def alias_fork(root,targets,pregraph=None,private_out=None,*,full_copy=copy.deepcopy):
     """Path-copy the reverse alias closure of targets; preserve other objects.
 
     Dict/list cycles are supported. Tuple cycles fall back to deepcopy, since
@@ -58,12 +63,12 @@ def alias_fork(root,targets,pregraph=None,private_out=None):
             out=[];memo[oid]=out;out.extend(clone(v) for v in x)
         elif isinstance(x,set):out=x.copy();memo[oid]=out
         else:
-            if oid in active:raise ValueError('tuple cycle')
+            if oid in active:raise _TupleCycle
             active.add(oid);out=tuple(clone(v) for v in x);memo[oid]=out;active.remove(oid)
         if private_out is not None:private_out.add(id(out))
         return out
     try:return clone(root),len(memo)
-    except ValueError:return copy.deepcopy(root),len(nodes)
+    except _TupleCycle:return full_copy(root),len(nodes)
 
 def _record(obj):
     journal=CURRENT.get()
@@ -81,8 +86,27 @@ def write(value,obj,key):
 def delete(obj,key):
     _record(obj);del obj[key]
 
-def mutate(obj,name,*args,**kwargs):
-    _record(obj);return getattr(obj,name)(*args,**kwargs)
+def mutate(method, /, *args, **kwargs):
+    journal = CURRENT.get()
+    if journal is not None:
+        if isinstance(method, types.MethodDescriptorType) and method.__objclass__ in (list, dict, set):
+            # list.append(xs, value) writes to xs, even if list has a different name.
+            if not args:
+                return method(*args, **kwargs)  # Let the descriptor report its missing receiver.
+            receiver = args[0]
+        elif isinstance(method, types.BuiltinMethodType):
+            receiver = method.__self__
+        else:
+            raise TypeError("WCTR cannot track the receiver of this mutator")
+        if type(receiver) not in (list, dict, set, defaultdict):
+            raise TypeError("WCTR mutators require a built-in container receiver")
+        journal.record(receiver)
+    return method(*args, **kwargs)
+
+
+def bind_mutator(method):
+    # Keep a method captured as a callback guarded when it is eventually invoked.
+    return partial(mutate, method) if callable(method) else method
 
 OPS={ast.Add:operator.iadd,ast.Sub:operator.isub,ast.Mult:operator.imul,
      ast.BitOr:operator.ior,ast.BitAnd:operator.iand}
@@ -123,19 +147,15 @@ class Instrument(ast.NodeTransformer):
             return ast.copy_location(ast.Expr(ast.Call(ast.Name('_wctr_augment',ast.Load()),
                 [t.value,t.slice,ast.Lambda(args,node.value),ast.Name(type(node.op).__name__,ast.Load())],[])),node)
         return node
-    def visit_Call(self,node):
+    def visit_Attribute(self,node):
         node=self.generic_visit(node)
-        if isinstance(node.func,ast.Attribute) and node.func.attr in MUTATORS:
-            return ast.copy_location(ast.Call(ast.Name('_wctr_mutate',ast.Load()),
-                [node.func.value,ast.Constant(node.func.attr)]+node.args,node.keywords),node)
-        if ((isinstance(node.func,ast.Attribute) and node.func.attr=='copy') or
-            (isinstance(node.func,ast.Name) and node.func.id in ['dict','list','set','defaultdict'])):
-            return self.allocation(node)
+        if isinstance(node.ctx, ast.Load) and node.attr in MUTATORS:
+            return ast.copy_location(ast.Call(ast.Name('_wctr_bind_mutator', ast.Load()), [node], []), node)
         return node
 
 def compile_source(source,filename):
     tree=Instrument().visit(ast.parse(source,filename));ast.fix_missing_locations(tree)
-    env={'_wctr_write':write,'_wctr_delete':delete,'_wctr_mutate':mutate,'_wctr_private':private,
+    env={'_wctr_write':write,'_wctr_delete':delete,'_wctr_bind_mutator':bind_mutator,'_wctr_private':private,
          '_wctr_augment':augment,**{k.__name__:k for k in OPS}}
     exec(compile(tree,filename,'exec'),env)
     return env
@@ -200,40 +220,42 @@ class Adapter:
                 if candidates:selector=min(candidates,key=lambda k:(-len(str(obj[k])),str(k)))
             self.frontiers[signature(action)].add((pattern(path),selector))
             self.top_fields[signature(action)].add(path[0] if path else None)
+
+    def _full_copy(self, state):
+        result = copy.deepcopy(state)
+        self.full_clones += 1
+        return result
+
     def transition(self,state,action):
         self.calls+=1
         if self.method=='raw':return self.model.predict_belief(state,action)
         if self.method=='deepcopy':
-            self.full_clones+=1
-            return self.model.predict_belief(copy.deepcopy(state),action)
+            return self.model.predict_belief(self._full_copy(state),action)
         if self.method=='memo_deepcopy':
             key=(pickle.dumps(state,protocol=5),action)
             if key in self.cache:return copy.deepcopy(self.cache[key])
-            self.full_clones+=1
-            output=self.model.predict_belief(copy.deepcopy(state),action)
+            output=self.model.predict_belief(self._full_copy(state),action)
             self.cache[key]=copy.deepcopy(output)
             return output
-        # defaultdict reads can insert entries without an explicit Python write
-        # site. Preserve semantics with the ordinary strong fallback.
-        if self.dd_fallback:
-            self.full_clones+=1
+        # A set's pop/iteration order can change on deepcopy; defaultdict reads can
+        # insert keys. Choose the reference route before the model makes any writes.
+        pregraph = graph(state)
+        if self.dd_fallback or any(isinstance(obj, (set, defaultdict)) for obj in pregraph[0].values()):
             underlying=getattr(self.model,'_wctr_raw_model',self.model)
-            return underlying.predict_belief(copy.deepcopy(state),action)
+            return underlying.predict_belief(self._full_copy(state),action)
         inputs=state
-        pregraph=None;private_ids=set()
+        private_ids=set()
         if self.method=='wctr':
             target=match_targets(state,self.frontiers[signature(action)],action)
             if target:
-                pregraph=graph(state)
-                inputs,n=alias_fork(state,target,pregraph,private_ids);self.copied+=n
+                inputs,n=alias_fork(state,target,pregraph,private_ids,full_copy=self._full_copy);self.copied+=n
         elif self.method=='topfield':
             target=set()
             for k in self.top_fields[signature(action)]:
                 obj=state if k is None else state.get(k)
                 if isinstance(obj,(dict,list,set,tuple)):target.update(graph(obj)[0])
             if target:
-                pregraph=graph(state)
-                inputs,n=alias_fork(state,target,pregraph,private_ids);self.copied+=n
+                inputs,n=alias_fork(state,target,pregraph,private_ids,full_copy=self._full_copy);self.copied+=n
         # Journal only original input objects; eagerly forked objects are private.
         journal=Journal(state,pregraph,private_ids);token=CURRENT.set(journal)
         try:
@@ -242,7 +264,7 @@ class Adapter:
                 self.deopts+=1;self.sites+=len(journal.saved)
                 nodes,parents,paths=journal.ensure_graph()
                 self.remember(state,action,nodes,paths,journal.saved)
-                output,n=alias_fork(output,set(journal.saved));self.copied+=n
+                output,n=alias_fork(output,set(journal.saved),full_copy=self._full_copy);self.copied+=n
             return output
         finally:
             journal.restore();CURRENT.reset(token)
