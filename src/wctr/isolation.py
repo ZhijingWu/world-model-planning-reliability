@@ -464,12 +464,17 @@ class Journal:
         for (owner, name, _), detached in zip(fields, copy.deepcopy(values)):
             setattr(owner, name, detached)
 
-def signature(action):return str(action).strip().split(' ',1)[0].lower()
+def signature(action):
+    if type(action) is str:
+        return action.strip().split(' ', 1)[0].lower()
+    return None
 
 def pattern(path):return tuple('*' if isinstance(k,int) else k for k in path)
 
 def match_targets(root,patterns,action):
     result=set()
+    if type(action) is not str:
+        return result
     for path,selector in patterns:
         states=[root]
         for key in path:
@@ -482,7 +487,9 @@ def match_targets(root,patterns,action):
             states=nxt
         for obj in states:
             if selector is not None:
-                if not isinstance(obj,dict) or not str(action).endswith(str(obj.get(selector,'\0'))):continue
+                value = obj.get(selector) if isinstance(obj, dict) and type(selector) is str else None
+                if type(value) is not str or not value or not action.endswith(value):
+                    continue
             result.add(id(obj))
     return result
 
@@ -496,16 +503,20 @@ class Adapter:
         initial=model.init_belief() if hasattr(model,'init_belief') else {}
         self.dd_fallback=any(isinstance(x,defaultdict) for x in graph(initial)[0].values())
     def remember(self,root,action,nodes,paths,dirty):
+        key = signature(action)
+        if key is None:
+            return
         for oid in dirty:
             path=paths.get(oid)
             if path is None:continue
             obj=nodes[oid];selector=None
             if isinstance(obj,dict) and path and isinstance(path[-1],int):
-                candidates=[k for k,v in obj.items() if isinstance(v,str) and v
-                            and str(action).endswith(v)]
-                if candidates:selector=min(candidates,key=lambda k:(-len(str(obj[k])),str(k)))
-            self.frontiers[signature(action)].add((pattern(path),selector))
-            self.top_fields[signature(action)].add(path[0] if path else None)
+                candidates = [k for k, v in obj.items()
+                              if type(k) is str and type(v) is str and v and action.endswith(v)]
+                if candidates:
+                    selector = min(candidates, key=lambda k: (-len(obj[k]), k))
+            self.frontiers[key].add((pattern(path),selector))
+            self.top_fields[key].add(path[0] if path else None)
 
     def _full_copy(self, state):
         result = copy.deepcopy(state)
@@ -540,9 +551,9 @@ class Adapter:
             return self._reference_transition(state, action)
         witnesses = ()
         if self.method == 'wctr':
-            witnesses = self.frontiers[signature(action)]
+            witnesses = self.frontiers.get(signature(action), ())
         elif self.method == 'topfield':
-            witnesses = self.top_fields[signature(action)]
+            witnesses = self.top_fields.get(signature(action), ())
 
         pregraph = None
         fallback = self.dd_fallback
