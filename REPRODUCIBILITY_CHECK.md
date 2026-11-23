@@ -1,8 +1,16 @@
 # Reproducibility check
 
-Publication verification date: 2026-10-29. These checks validate the packaged runtime and completed-result analysis. They do not constitute a new experimental reproduction of the controlled or native study.
+The current regression suite exercises the repaired package. The historical evidence command checks archived records from [publication commit 3c902203](https://github.com/ZhijingWu/world-model-planning-reliability/tree/3c9022030323bd22e05b3f5276531eaa542cb1eb). The 33,692 checked WCTR transitions were produced by that earlier runtime.
 
-## Tested commands
+## Commands
+
+Run the complete gate in a checkout with full Git history using one standard-library command:
+
+```sh
+python tools/release_gate.py
+```
+
+For implementation `dd3aa05f9fc064a5293650e75a55f00308495fbb` this passed locally on Windows CPython 3.10.21, 3.11.16, 3.12.13 and 3.13.5. Each run executed 44 tests, the branch-isolation example, the public evidence verifier and both frozen-runtime import checks. It checked the bytes of 47 publication files, including the relocated runtime, and checked the frozen SciWorld proposal against `9e28df1`. The workflow runs the same command on Windows and Ubuntu for all four Python minors. [AST semantic matrix](docs/AST_COVERAGE.md) · [GitHub Actions workflow](.github/workflows/release-gate.yml)
 
 From the repository root, with Python 3.10+ and pip/setuptools available:
 
@@ -16,7 +24,23 @@ python experiments/stage3/live_study.py --help
 python experiments/stage3/run_study.py --help
 ```
 
-The core, fixtures and evidence verifier import only the Python standard library. Build tools are installation prerequisites, not runtime dependencies. An installation-free alternative sets `PYTHONPATH` to the repository's `src` directory (PowerShell: `$env:PYTHONPATH = (Resolve-Path src)`; POSIX: `export PYTHONPATH="$PWD/src"`).
+The core, fixtures and evidence verifier import only the Python standard library. For an installation-free regression run, set `PYTHONPATH` to the repository's `src` directory (`$env:PYTHONPATH = (Resolve-Path src)` in PowerShell or `export PYTHONPATH="$PWD/src"` in a POSIX shell). The evidence verifier can run directly from a source checkout. It checks the historical runtime digest, the published records and the current source manifest. The Stage 2 and Stage 3 harnesses load the historical runtime for any optional experiment rerun.
+
+## Compatibility and cost checks on 2026-11-23
+
+At implementation commit `eb913f4d620ce5ff412d1cbab717b144b45da548`, all 26 tests, the branch-isolation example and the public evidence verifier passed on Windows using CPython 3.10.21, 3.11.16, 3.12.13 and 3.13.5. Each interpreter ran with `-B -S -W error` and the repository's `src` directory on `PYTHONPATH`. The suite comprises the original seven tests, ten audit regressions, six AST compatibility tests and three entry-scan tests. The four verifier runs recomputed previously recorded evidence.
+
+Separate synthetic timings compared the original runtime, the first repair, the WCTR and Journal Only implementations at `eb913f4`, and raw execution on a deep copy. The later AST gate has its own cost measurements. [Earlier diagnostic](diagnostics/README.md) · [AST gate costs](diagnostics/ast-gate/README.md)
+
+## Initial correctness repair at `7e57af85` on 2026-11-23
+
+On Windows, all 17 test methods (seven original and ten new), the branch-isolation example, and the public evidence verifier passed on CPython 3.10.21, 3.11.16, 3.12.13 and 3.13.5 with site packages disabled and `src` on `PYTHONPATH`. The regression-first commit reproduced all four audited defects on the original core. The new fixtures include exception rollback, aliased receivers, non-fresh copy results, set-order behavior, and tuple-cycle accounting on input forks and output grafts.
+
+The verifier recomputed the published summaries from 7,200 historical controlled-planning records and checked 448 historical native method-task records. This repair ran no new controlled timing or native environment study. The original 33,692 WCTR checks remain attributed to the frozen runtime.
+
+## Original publication checks on 2026-10-29
+
+The following table records checks for the frozen publication. The dates, Python versions and test counts refer to that snapshot.
 
 | Check | Outcome |
 | --- | --- |
@@ -33,7 +57,7 @@ The core, fixtures and evidence verifier import only the Python standard library
 
 ## Exact artifact identifiers
 
-- Frozen core SHA-256: `4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612`.
+- Frozen core [experiments/frozen/isolation.py](experiments/frozen/isolation.py), SHA-256 `4528627f1922286e3058a81c2439f682dde33f8deb9a10ebb5170b8a11b7b612`.
 - Final PDF SHA-256: `4d29fead79bf244b57198abc3d9c04af1f338a85d546c5b0dbd1d9a19e4479d1`.
 - Original Stage 3 reproducibility ZIP SHA-256: `ea86bad26a721ea751a2a2a4d0b3c812eda89ecb06dcb6c00bb8f5ec83587c5c`. The original ZIP is not redistributed because it contains raw assets/logs and machine-specific provenance.
 

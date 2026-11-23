@@ -6,7 +6,16 @@ From the repository root, follow the tested commands in [REPRODUCIBILITY_CHECK.m
 
 ## Optional controlled planning harness
 
-`stage2/benchmark.py` is the original controlled planner with packaging-only path adaptations. `--help` is lightweight; running it is a new measurement and was **not** done for publication. Use the unchanged [configuration](stage2/EXPERIMENT_CONFIG.json). Raw trajectories are excluded. Independently obtain the dataset at revision `9342e2cbee1f8579b5423ed5821f6ad8a81ab773` from https://huggingface.co/datasets/HKBU-KnowComp/patchworld-trajectories and check its terms. The frozen final acquisition used the first 32 nonempty train JSONL records and first 100 nonempty test records per final program, selected by order, not performance. Serialize retained records as original UTF-8 lines joined by LF plus a final LF; compare [asset hashes](../docs/ASSET_HASHES.json). `--mode final` uses train/test; development uses train/val and requires the separately hashed development prefixes.
+The archived Stage 2 measurements are tied to the [historical implementation at `3c902203`](https://github.com/ZhijingWu/world-model-planning-reliability/tree/3c9022030323bd22e05b3f5276531eaa542cb1eb). `stage2/benchmark.py --help` is lightweight. Running the planner produces a new timing measurement. See the [frozen configuration](stage2/EXPERIMENT_CONFIG.json).
+
+Obtain the trajectory JSONL files from the [pinned PatchWorld dataset](https://huggingface.co/datasets/HKBU-KnowComp/patchworld-trajectories/tree/9342e2cbee1f8579b5423ed5821f6ad8a81ab773). The historical final run used the following assets.
+
+| Final program(s) | Training JSONL records | Test JSONL records |
+| --- | ---: | ---: |
+| BabyAI | All 1,620 in the retained training file | First 100 |
+| ALFWorld, SciWorld, WebShop, Wordle | First 32 per program | First 100 per program |
+
+BabyAI's training file had already been acquired during development. Its original 10,250,470 bytes hash to SHA-256 `fec6ef99f5f9f5f65d3e6d0b9adf28414265082fd285a4ba735e82d263bdacd7`. For the bounded prefixes, take the first nonempty records in file order, preserve each original UTF-8 JSON line and join with LF plus a final LF. Verify each file against the [asset manifest](../docs/ASSET_HASHES.json). Initial calibration consumes 32 **transitions** per program. One JSONL record contains an entire trajectory. The discovery count of 59/3,942 uses BabyAI's separate 540-record validation file, SHA-256 `9b2abb1f8b1bfc89617480cf96dcf0476d075c45b0840560cd605a27eb64a5ae`. Final planning uses `train` and `test`, and development uses `train` and `val`.
 
 The final command uses `--mode final`. Data layout (relative to `.data/` or `WCTR_DATA_ROOT`):
 

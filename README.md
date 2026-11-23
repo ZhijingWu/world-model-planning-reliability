@@ -26,20 +26,23 @@ WCTR combines established ideas from copying, transactions and execution profili
 ```mermaid
 flowchart TD
     A[Trusted Python model] --> B[AST write instrumentation]
-    C[Train-only execution witnesses] --> D[Action-signature mutation paths]
+    C[Initial train-only calibration] --> D[Action-signature mutation paths]
     D --> E[Alias-ancestor selective fork]
     P[Parent belief] --> E
     E --> F[Instrumented rollout]
     B --> F
     F --> G[Guard unexpected writes and journal]
+    G -->|Learn from observed writes| D
     G --> H[Graft successor values]
     H --> I[Restore parent]
     I --> J[Reusable parent and returned successor]
 ```
 
-The journal handles supported writes absent from the witnessed frontier. Dict/list cycles and shared references are handled by alias closure; tuple-cycle and initialized-defaultdict cases use full-copy fallbacks. See [the supported-state contract](docs/SUPPORTED_STATE.md).
+Calibration initializes the mutation paths for each action signature. During later rollouts, the journal captures unexpected supported writes and the adapter adds the observed paths for future calls. The AST repair has separate synthetic measurements for reads, sparse writes and the two assignment forms that now select Full Copy. [Supported-state contract](docs/SUPPORTED_STATE.md) · [AST repair costs and controls](diagnostics/ast-gate/README.md)
 
 ## Selected frozen evidence
+
+These measurements belong to the historical implementation published at [`3c902203`](https://github.com/ZhijingWu/world-model-planning-reliability/tree/3c9022030323bd22e05b3f5276531eaa542cb1eb). The current runtime has separate regression checks.
 
 | Question | Result | Interpretation |
 | --- | --- | --- |
@@ -49,11 +52,13 @@ The journal handles supported writes absent from the witnessed frontier. Dict/li
 | Does native completion improve? | Full Copy, Top-Field, Journal Only and WCTR each completed **6/12 WebShop goals** and **43/100 Wordle seed tasks**, with identical paired action sequences. | Four-way tie; no incremental native-success benefit. |
 | Is WCTR generally cheaper? | Combined measured CPU: Full Copy 261.31 s; Top-Field 245.96 s; Journal 248.40 s; WCTR 257.62 s. | Simpler controls were cheaper overall. One measured lifetime per arm on one host; no general efficiency or superiority claim. |
 
-**Controlled setting:** 80 generated structured-state program-goal tasks per program, three timing repeats, shared breadth-first search, depth ≤6, ≤4,096 transitions, soft 10 ms deadline excluding setup/calibration. Returned plans were checked by independent full-copy execution of the released program. Source-item bootstrap uses 5,000 resamples; timing repeats are averaged within task. WebShop and Wordle intervals use 29 and 30 source-item clusters respectively. All five programs and all six methods remain in the [numerical records](results/README.md).
+**Controlled setting.** Each program had 80 generated goal states and three timing repeats. The breadth-first search used depth six, a nominal cap of 4,096 transitions checked before each node, and a soft 10 ms wall deadline. The largest recorded search expanded 204 transitions. Setup, calibration and full-copy replay of the returned plan fell outside the deadline. The 5,000-resample bootstrap averaged timing repeats within task and grouped related tasks by source item (29 WebShop clusters and 30 Wordle clusters). [All five programs and six methods](results/README.md)
 
 **Native setting:** released generated models; small 1k-product WebShop catalog, 12 final human goals (smoke excluded); official AgentGym/LMRL seeded 40-word stochastic Wordle, 100 seed tasks. A Wordle seed is not a fixed target word: the released game resamples from a filtered vocabulary. The released model's hardcoded `target_word="frame"` was retained. Each domain/method had a 180 CPU-second lifetime allowance including setup, verification, profiling, serialization and normal exit; package provisioning was unmeasured. All eight workers finished within allowance. See [evaluation boundaries](docs/EVALUATION.md).
 
 ## Run the lightweight checks
+
+From a Git checkout with full history, run `python tools/release_gate.py` for the AST semantic suite, branch example, evidence hashes and historical import checks. The current selective Python contract and per-form Full Copy policy are recorded in the [AST coverage matrix](docs/AST_COVERAGE.md).
 
 Python 3.10 or newer; the core, tests, example and evidence verifier use only the standard library. From the repository root:
 
@@ -71,6 +76,8 @@ The installation command needs an existing `pip`/`setuptools` build toolchain. A
 ## A proposed next question
 
 **Which simulator errors can change the action a planner chooses?**
+
+The SciWorld proposal specifies eleven archived state identifiers, the paired interventions and the evidence needed to attribute a change in the chosen action to a parent write. The study awaits runtime review. [Fixed-work SciWorld proposal](proposals/sciworld-fixed-work.md)
 
 Proposed future work, not executed: fix one initial state, three candidate actions, a leaf-value rule, and canonical tie-breaking. Reset for each of six root-action permutations; keep child order fixed and evaluate depth two with exactly 12 expansions and no early stopping. Compare unprotected execution, Full Copy and WCTR. Start deterministic; then pair five predeclared controllable random tapes keyed to action history. Measure ranking inversions, chosen-action flips against Full Copy, and parent fingerprints. Within-tape order effects require a stable reference before being attributed to contamination; Full Copy's across-tape variation supplies the legitimate-stochasticity control. Record CPU/setup separately while holding expansion budget and action set fixed.
 
