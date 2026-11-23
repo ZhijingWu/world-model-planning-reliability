@@ -18,7 +18,13 @@ python experiments/stage3/run_study.py --help
 
 The core, fixtures and evidence verifier import only the Python standard library. For an installation-free regression run, set `PYTHONPATH` to the repository's `src` directory (`$env:PYTHONPATH = (Resolve-Path src)` in PowerShell or `export PYTHONPATH="$PWD/src"` in a POSIX shell). The evidence verifier can run directly from a source checkout. It checks the historical runtime digest, the published records and the current source manifest. The Stage 2 and Stage 3 harnesses load the historical runtime for any optional experiment rerun.
 
-## Correctness repair checks on 2026-11-23
+## Compatibility and cost checks on 2026-11-23
+
+At implementation commit `eb913f4d620ce5ff412d1cbab717b144b45da548`, all 26 tests, the branch-isolation example and the public evidence verifier passed on Windows using CPython 3.10.21, 3.11.16, 3.12.13 and 3.13.5. Each interpreter ran with `-B -S -W error` and the repository's `src` directory on `PYTHONPATH`. The suite comprises the original seven tests, ten audit regressions, six AST compatibility tests and three entry-scan tests. The four verifier runs recomputed previously recorded evidence.
+
+Separate synthetic timings compare the original runtime, the first repair, the current WCTR and Journal Only implementations, and raw execution on a deep copy. The measurement record includes the fixture and runtime digests, batch durations, individual-call samples and full-copy counts. [Reproduction command, diagnostic measurements and limitations](diagnostics/README.md)
+
+## Initial correctness repair at `7e57af85` on 2026-11-23
 
 On Windows, all 17 test methods (seven original and ten new), the branch-isolation example, and the public evidence verifier passed on CPython 3.10.21, 3.11.16, 3.12.13 and 3.13.5 with site packages disabled and `src` on `PYTHONPATH`. The regression-first commit reproduced all four audited defects on the original core. The new fixtures include exception rollback, aliased receivers, non-fresh copy results, set-order behavior, and tuple-cycle accounting on input forks and output grafts.
 

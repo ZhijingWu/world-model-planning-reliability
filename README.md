@@ -38,7 +38,7 @@ flowchart TD
     I --> J[Reusable parent and returned successor]
 ```
 
-Calibration initializes the mutation paths for each action signature. During later rollouts, the journal captures unexpected supported writes and the adapter adds the observed paths for future calls. See [the supported-state contract](docs/SUPPORTED_STATE.md).
+Calibration initializes the mutation paths for each action signature. During later rollouts, the journal captures unexpected supported writes and the adapter adds the observed paths for future calls. The repaired runtime has separate synthetic measurements for read-only and sparse-write transitions. [Supported-state contract](docs/SUPPORTED_STATE.md) · [Runtime costs and controls](diagnostics/README.md)
 
 ## Selected frozen evidence
 
@@ -74,6 +74,8 @@ The installation command needs an existing `pip`/`setuptools` build toolchain. A
 ## A proposed next question
 
 **Which simulator errors can change the action a planner chooses?**
+
+The SciWorld proposal specifies eleven archived state identifiers, the paired interventions and the evidence needed to attribute a change in the chosen action to a parent write. The study awaits runtime review. [Fixed-work SciWorld proposal](proposals/sciworld-fixed-work.md)
 
 Proposed future work, not executed: fix one initial state, three candidate actions, a leaf-value rule, and canonical tie-breaking. Reset for each of six root-action permutations; keep child order fixed and evaluate depth two with exactly 12 expansions and no early stopping. Compare unprotected execution, Full Copy and WCTR. Start deterministic; then pair five predeclared controllable random tapes keyed to action history. Measure ranking inversions, chosen-action flips against Full Copy, and parent fingerprints. Within-tape order effects require a stable reference before being attributed to contamination; Full Copy's across-tape variation supplies the legitimate-stochasticity control. Record CPU/setup separately while holding expansion budget and action set fixed.
 
