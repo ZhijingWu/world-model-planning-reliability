@@ -7,7 +7,7 @@ Copy-on-write, transactions, selective copying, and profiling are precedents,
 not claimed as inventions. No program's environment dynamics are corrected.
 """
 from __future__ import annotations
-import ast,copy,operator,types,pickle
+import ast,builtins,copy,symtable,types,pickle
 from collections import defaultdict
 from contextvars import ContextVar
 from functools import partial
@@ -19,6 +19,7 @@ MUTATORS={'append','extend','insert','pop','remove','clear','update','setdefault
 
 _PLAIN_CONTAINERS = (dict, list, tuple)
 _GRAPH_CONTAINERS = (dict, list, tuple, set)
+_SCALAR_TYPES = (type(None), bool, int, float, complex, str, bytes)
 
 
 def _child_items(obj):
@@ -36,6 +37,8 @@ def children(x):
 def graph(root, *, stop_on_fallback=False):
     """Index all reverse edges and one witness path per container, in DFS order."""
     nodes, parents, paths = {}, defaultdict(set), {}
+    if stop_on_fallback and type(root) not in _PLAIN_CONTAINERS + _SCALAR_TYPES:
+        return None
     stack = [(root, ())] if isinstance(root, _GRAPH_CONTAINERS) else []
     while stack:
         obj, path = stack.pop()
@@ -47,9 +50,13 @@ def graph(root, *, stop_on_fallback=False):
         nodes[oid] = obj
         paths[oid] = path
         for key, child in _child_items(obj):
+            if stop_on_fallback and type(key) not in _SCALAR_TYPES:
+                return None
             if isinstance(child, _GRAPH_CONTAINERS):
                 parents[id(child)].add(oid)
                 stack.append((child, path + (key,)))
+            elif stop_on_fallback and type(child) not in _SCALAR_TYPES:
+                return None
     return nodes, parents, paths
 
 
@@ -61,13 +68,18 @@ def _needs_full_copy(root):
         obj = stack.pop()
         kind = type(obj)
         if kind not in _PLAIN_CONTAINERS:
-            if isinstance(obj, _GRAPH_CONTAINERS):
-                return True  # Includes sets, defaultdicts and container subclasses.
+            if kind not in _SCALAR_TYPES:
+                return True
             continue
         oid = id(obj)
         if oid not in seen:
             seen.add(oid)
-            stack.extend(obj.values() if kind is dict else obj)
+            if kind is dict:
+                if any(type(k) not in _SCALAR_TYPES for k in obj):
+                    return True
+                stack.extend(obj.values())
+            else:
+                stack.extend(obj)
     return False
 
 class _TupleCycle(Exception):
@@ -115,11 +127,30 @@ def private(obj):
         journal.private.add(id(obj))
     return obj
 
-def write(value,obj,key):
-    _record(obj);obj[key]=value
+class _SubscriptTarget:
+    """Used only as the base of a store/delete target, never as its value."""
+    def __init__(self, obj):
+        self.obj = obj
 
-def delete(obj,key):
-    _record(obj);del obj[key]
+    def __getitem__(self, key):
+        # AugAssign fetches the old value before evaluating its RHS. A native
+        # in-place opcode can mutate that value even if the final store fails.
+        old = self.obj[key]
+        if isinstance(old, (dict, list, set)):
+            _record(old)
+        return old
+
+    def __setitem__(self, key, value):
+        _record(self.obj)
+        self.obj[key] = value
+
+    def __delitem__(self, key):
+        _record(self.obj)
+        del self.obj[key]
+
+
+def _target(obj):
+    return obj if CURRENT.get() is None else _SubscriptTarget(obj)
 
 def mutate(method, /, *args, **kwargs):
     journal = CURRENT.get()
@@ -140,21 +171,53 @@ def mutate(method, /, *args, **kwargs):
     return method(*args, **kwargs)
 
 
-class _GuardedMutator(partial):
-    def __get__(self, instance, owner=None):
-        # A callback captured in a class body retains the original descriptor binding.
-        method = self.args[0]
-        get = getattr(type(method), '__get__', None)
-        if get is None:
-            return self
-        bound = get(method, instance, owner)
-        return self if bound is method else bind_mutator(bound)
+_PLAIN_CALLS = (len, isinstance, list, dict, tuple, set, str, int, float, bool,
+                range, enumerate, zip, staticmethod, types.SimpleNamespace,
+                ValueError, TypeError, LookupError, KeyError, IndexError,
+                RuntimeError, AssertionError, Exception)
+_READ_METHODS = {'copy', 'get', 'keys', 'values', 'items', 'endswith', 'startswith',
+                 'count', 'index'}
+# These runtime-owned keys cannot be supplied by a Python identifier or import.
+_CODE_KEY = object()
+_CLASSES_KEY = object()
 
 
-def bind_mutator(method):
-    if type(method) is _GuardedMutator or not callable(method):
-        return method
-    return _GuardedMutator(mutate, method)
+def _compiled_function(func):
+    if type(func) is types.MethodType:
+        func = func.__func__
+    return (type(func) is types.FunctionType
+            and func.__code__ in func.__globals__.get(_CODE_KEY, ()))
+
+
+def _checked_callable(func, mutator_site):
+    journal = CURRENT.get()
+    if journal is None:
+        return func
+    kind = type(func)
+    native_method = kind in (types.BuiltinMethodType, types.MethodDescriptorType)
+    named_method = native_method or kind in (types.MethodType, types.FunctionType)
+    if mutator_site or (named_method and func.__name__ in MUTATORS):
+        # Capture, descriptor binding and equality use the actual Python object.
+        # The barrier applies at invocation, including for calls via local aliases.
+        return partial(mutate, func)
+    if native_method and func.__name__ in _READ_METHODS:
+        owner = type(func.__self__) if kind is types.BuiltinMethodType else func.__objclass__
+        if owner in (dict, list, tuple, str):
+            return func
+    if _compiled_function(func) or any(func is known for known in _PLAIN_CALLS):
+        return func
+    if kind is type and func in journal.classes:
+        return func
+    if not callable(func):
+        return func  # Python evaluates the arguments and raises its usual TypeError.
+    journal.reject("WCTR cannot certify this callable or mutator receiver")
+
+
+def _model_method_value(value):
+    journal = CURRENT.get()
+    if journal is not None and callable(value):
+        journal.reject("WCTR cannot expose this custom mutator receiver as a callback")
+    return value
 
 
 def _check_pattern_subject(subject):
@@ -175,14 +238,10 @@ def _captures_mutator(pattern):
                     return True
     return False
 
-OPS={ast.Add:operator.iadd,ast.Sub:operator.isub,ast.Mult:operator.imul,
-     ast.BitOr:operator.ior,ast.BitAnd:operator.iand}
-
-def augment(obj,key,rhs,op):
-    # Generated models use side-effect-free numeric RHSs for these updates.
-    old=obj[key];value=rhs();_record(obj);_record(old);obj[key]=OPS[op](old,value)
-
 class Instrument(ast.NodeTransformer):
+    def __init__(self, custom_captures):
+        self.custom_captures = custom_captures
+
     def visit(self, node):
         # Pattern attributes are dotted names in Python's grammar. The enclosing
         # match subject, case guards and case statements are ordinary executable nodes.
@@ -196,12 +255,12 @@ class Instrument(ast.NodeTransformer):
             # Python can bind names during a partially failed pattern. Guard
             # before any pattern runs so a raw method cannot escape into a local.
             subject = node.subject
-            check = ast.Call(ast.Name('_wctr_check_pattern_subject', ast.Load()), [subject], [])
+            check = ast.Call(ast.Name('wctr:pattern', ast.Load()), [subject], [])
             node.subject = ast.copy_location(check, subject)
         return node
 
     def allocation(self,node):
-        return ast.copy_location(ast.Call(ast.Name('_wctr_private',ast.Load()),[node],[]),node)
+        return ast.copy_location(ast.Call(ast.Name('wctr:private',ast.Load()),[node],[]),node)
     def visit_Dict(self,node):return self.allocation(self.generic_visit(node))
     def visit_List(self,node):
         node=self.generic_visit(node)
@@ -210,44 +269,145 @@ class Instrument(ast.NodeTransformer):
     def visit_ListComp(self,node):return self.allocation(self.generic_visit(node))
     def visit_DictComp(self,node):return self.allocation(self.generic_visit(node))
     def visit_SetComp(self,node):return self.allocation(self.generic_visit(node))
-    def visit_Assign(self,node):
-        node=self.generic_visit(node)
-        if len(node.targets)==1 and isinstance(node.targets[0],ast.Subscript):
-            t=node.targets[0]
-            return ast.copy_location(ast.Expr(ast.Call(ast.Name('_wctr_write',ast.Load()),
-                [node.value,t.value,t.slice],[])),node)
-        return node
-    def visit_Delete(self,node):
-        node=self.generic_visit(node)
-        if all(isinstance(t,ast.Subscript) for t in node.targets):
-            return [ast.copy_location(ast.Expr(ast.Call(ast.Name('_wctr_delete',ast.Load()),
-                    [t.value,t.slice],[])),node) for t in node.targets]
-        return node
-    def visit_AugAssign(self,node):
-        node=self.generic_visit(node)
-        if isinstance(node.target,ast.Subscript) and type(node.op) in OPS:
-            t=node.target
-            args=ast.arguments(posonlyargs=[],args=[],kwonlyargs=[],kw_defaults=[],defaults=[])
-            return ast.copy_location(ast.Expr(ast.Call(ast.Name('_wctr_augment',ast.Load()),
-                [t.value,t.slice,ast.Lambda(args,node.value),ast.Name(type(node.op).__name__,ast.Load())],[])),node)
-        return node
-    def visit_Attribute(self,node):
-        node=self.generic_visit(node)
-        if isinstance(node.ctx, ast.Load) and node.attr in MUTATORS:
-            return ast.copy_location(ast.Call(ast.Name('_wctr_bind_mutator', ast.Load()), [node], []), node)
+    def visit_Subscript(self, node):
+        node = self.generic_visit(node)
+        if isinstance(node.ctx, (ast.Store, ast.Del)):
+            base = node.value
+            node.value = ast.copy_location(ast.Call(ast.Name('wctr:target', ast.Load()), [base], []), base)
         return node
 
-def compile_source(source,filename):
-    tree=Instrument().visit(ast.parse(source,filename));ast.fix_missing_locations(tree)
-    env={'_wctr_write':write,'_wctr_delete':delete,'_wctr_bind_mutator':bind_mutator,'_wctr_private':private,
-         '_wctr_check_pattern_subject':_check_pattern_subject,
-         '_wctr_augment':augment,**{k.__name__:k for k in OPS}}
-    exec(compile(tree,filename,'exec'),env)
+    def visit_Call(self, node):
+        node = self.generic_visit(node)
+        func = node.func
+        mutator_site = isinstance(func, ast.Attribute) and func.attr in MUTATORS
+        node.func = ast.copy_location(ast.Call(ast.Name('wctr:call', ast.Load()),
+                                               [func, ast.Constant(mutator_site)], []), func)
+        return node
+
+    def visit_Attribute(self, node):
+        node = self.generic_visit(node)
+        if node in self.custom_captures:
+            return ast.copy_location(ast.Call(ast.Name('wctr:model-method', ast.Load()), [node], []), node)
+        return node
+
+
+# A new Python node takes native Full Copy until its effects have been reviewed.
+_SELECTIVE_NODES = (
+    ast.Module, ast.ClassDef, ast.FunctionDef, ast.arguments, ast.arg, ast.Return,
+    ast.Assign, ast.AugAssign, ast.Delete, ast.NamedExpr, ast.For, ast.While,
+    ast.If, ast.IfExp, ast.Try, ast.ExceptHandler, ast.Raise, ast.Pass, ast.Break,
+    ast.Continue, ast.Expr, ast.Call, ast.keyword, ast.Attribute, ast.Subscript,
+    ast.Slice, ast.Starred, ast.Name, ast.Constant, ast.Dict, ast.List, ast.Tuple,
+    ast.Set, ast.ListComp, ast.SetComp, ast.DictComp, ast.comprehension, ast.BoolOp,
+    ast.BinOp, ast.UnaryOp, ast.Compare, ast.Match, ast.match_case, ast.pattern,
+    ast.expr_context, ast.operator, ast.unaryop, ast.boolop, ast.cmpop,
+    ast.ImportFrom, ast.alias,
+)
+_BUILTIN_NAMES = frozenset(dir(builtins))
+_SAFE_NAMES = {func.__name__ for func in _PLAIN_CALLS}
+_EXCEPTION_NAMES = {cls.__name__ for cls in _PLAIN_CALLS
+                    if type(cls) is type and issubclass(cls, BaseException)}
+
+
+def _shadows_exception(table, names):
+    if any(symbol.get_name() in names and
+           (symbol.is_assigned() or symbol.is_parameter() or symbol.is_imported())
+           for symbol in table.get_symbols()):
+        return True
+    return any(_shadows_exception(child, names) for child in table.get_children())
+
+
+def _selective_source(tree, source, filename, custom_captures):
+    methods = {node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)}
+    receiver_names = set()
+    for cls in (node for node in ast.walk(tree) if isinstance(node, ast.ClassDef)):
+        for method in (item for item in cls.body if isinstance(item, ast.FunctionDef)):
+            args = method.args.posonlyargs + method.args.args
+            if args:
+                receiver_names.add(args[0].arg)
+    callees = {node.func for node in ast.walk(tree) if isinstance(node, ast.Call)}
+    pattern_names = {part for node in ast.walk(tree) if isinstance(node, ast.match_case)
+                     for part in ast.walk(node.pattern)}
+    attributes = MUTATORS | _READ_METHODS | methods
+    raised = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, _SELECTIVE_NODES):
+            return False
+        if isinstance(node, ast.ImportFrom):
+            if node.level or node.module != 'types' or any(a.name != 'SimpleNamespace' for a in node.names):
+                return False
+        elif isinstance(node, ast.Name):
+            if node.id.startswith('__') or (node.id in _BUILTIN_NAMES and node.id not in _SAFE_NAMES):
+                return False
+        elif isinstance(node, ast.ClassDef):
+            if node.bases or node.keywords or node.decorator_list:
+                return False
+        elif isinstance(node, ast.FunctionDef):
+            if node.decorator_list or node.name.startswith('__'):
+                return False
+        elif isinstance(node, ast.Attribute):
+            if (not isinstance(node.ctx, ast.Load) or node.attr.startswith('__')
+                    or node.attr not in attributes):
+                return False
+            if node not in callees and node not in pattern_names:
+                # Native consumers can invoke an escaped callable without an
+                # ast.Call (sort keys, mapping.keys, unpacking, ...).
+                if (node.attr in methods and node.attr in MUTATORS
+                        and isinstance(node.value, ast.Name) and node.value.id in receiver_names):
+                    custom_captures.add(node)
+                else:
+                    return False
+        elif isinstance(node, ast.MatchClass) and any(k not in MUTATORS for k in node.kwd_attrs):
+            return False
+        elif isinstance(node, ast.AugAssign):
+            if not isinstance(node.target, ast.Subscript):
+                return False
+        elif isinstance(node, ast.comprehension) and node.is_async:
+            return False
+        elif isinstance(node, ast.keyword) and node.arg is None:
+            return False
+        elif isinstance(node, ast.Raise):
+            # A mutable exception payload would otherwise be restored under the exception.
+            exc = node.exc
+            if (not isinstance(exc, ast.Call) or not isinstance(exc.func, ast.Name)
+                    or exc.func.id not in _EXCEPTION_NAMES or exc.keywords or node.cause
+                    or any(not isinstance(arg, ast.Constant) for arg in exc.args)):
+                return False
+            raised.add(exc.func.id)
+    return not raised or not _shadows_exception(symtable.symtable(source, filename, 'exec'), raised)
+
+
+def _code_objects(code):
+    yield code
+    for const in code.co_consts:
+        if type(const) is types.CodeType:
+            yield from _code_objects(const)
+
+
+def compile_source(source, filename):
+    tree = ast.parse(source, filename)
+    env = {}
+    custom_captures = set()
+    if not _selective_source(tree, source, filename, custom_captures):
+        exec(compile(tree, filename, 'exec', dont_inherit=True), env)
+        return env
+    tree = ast.fix_missing_locations(Instrument(custom_captures).visit(tree))
+    code = compile(tree, filename, 'exec', dont_inherit=True)
+    # Colons are illegal in Python identifiers. Source bindings cannot name a
+    # helper. Star imports and dynamic namespace access select original code.
+    env.update({'wctr:target': _target, 'wctr:call': _checked_callable,
+                'wctr:private': private, 'wctr:pattern': _check_pattern_subject,
+                'wctr:model-method': _model_method_value,
+                _CODE_KEY: frozenset(_code_objects(code))})
+    exec(code, env)
+    env[_CLASSES_KEY] = frozenset(obj for obj in env.values() if type(obj) is type
+                                  and obj.__module__ == env.get('__name__', 'builtins'))
     return env
 
 class Journal:
-    def __init__(self,root,pregraph=None,private_ids=None):
+    def __init__(self,root,pregraph=None,private_ids=None,classes=()):
         self.root=root;self.data=pregraph;self.saved={};self.private=private_ids or set()
+        self.classes = classes
         self.rejection = None
     def reject(self, reason):
         if self.rejection is None:
@@ -316,6 +476,14 @@ class Adapter:
         self.full_clones += 1
         return result
 
+    def _reference_transition(self, state, action):
+        model = getattr(self.model, '_wctr_raw_model', self.model)
+        token = CURRENT.set(None)
+        try:
+            return model.predict_belief(self._full_copy(state), action)
+        finally:
+            CURRENT.reset(token)
+
     def transition(self,state,action):
         self.calls+=1
         if self.method=='raw':return self.model.predict_belief(state,action)
@@ -329,6 +497,11 @@ class Adapter:
             return output
         # A set's pop/iteration order can change on deepcopy; defaultdict reads can
         # insert keys. Choose the reference route before the model makes any writes.
+        predict = self.model.predict_belief
+        if (not _compiled_function(predict) or type(action) not in _SCALAR_TYPES
+                or type(self.model) not in predict.__globals__[_CLASSES_KEY]
+                or (self.method == 'topfield' and type(state) is not dict)):
+            return self._reference_transition(state, action)
         witnesses = ()
         if self.method == 'wctr':
             witnesses = self.frontiers[signature(action)]
@@ -345,8 +518,7 @@ class Adapter:
                 # Journal.record builds the index before the first parent write.
                 fallback = _needs_full_copy(state)
         if fallback:
-            underlying=getattr(self.model,'_wctr_raw_model',self.model)
-            return underlying.predict_belief(self._full_copy(state),action)
+            return self._reference_transition(state, action)
         inputs=state
         private_ids=set()
         if self.method=='wctr' and witnesses:
@@ -361,9 +533,9 @@ class Adapter:
             if target:
                 inputs,n=alias_fork(state,target,pregraph,private_ids,full_copy=self._full_copy);self.copied+=n
         # Journal only original input objects; eagerly forked objects are private.
-        journal=Journal(state,pregraph,private_ids);token=CURRENT.set(journal)
+        journal=Journal(state,pregraph,private_ids,predict.__globals__[_CLASSES_KEY]);token=CURRENT.set(journal)
         try:
-            output=self.model.predict_belief(inputs,action)
+            output=predict(inputs,action)
             # Model code may catch TypeError; it cannot turn an unsupported call
             # into a successful speculative transition or an online witness.
             if journal.rejection is not None:
@@ -375,7 +547,10 @@ class Adapter:
                 output,n=alias_fork(output,set(journal.saved),full_copy=self._full_copy);self.copied+=n
             return output
         finally:
-            journal.restore();CURRENT.reset(token)
+            try:
+                journal.restore()
+            finally:
+                CURRENT.reset(token)
 
     def calibrate(self,cases):
         # All adapters see the same finite calibration states/actions. Labels are
