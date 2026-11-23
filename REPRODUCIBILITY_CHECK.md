@@ -4,6 +4,8 @@ The current regression suite exercises the repaired package. The historical evid
 
 ## Commands
 
+The repaired runtime is frozen at `wctr-runtime-repair-2026-11` (`4ba67940378b959a07e63426cf4d3d3bdaf93c86`). Its 47-test gate passed on Windows and Ubuntu across CPython 3.10–3.13. The separately versioned SciWorld study used that release. Its pre-intervention manifest records the runtime, selected states and search rules. The reproduction instructions include the public trajectory inputs, original result fingerprints and independent verification. [Release CI](https://github.com/ZhijingWu/world-model-planning-reliability/actions/runs/45166748213) · [SciWorld study](studies/sciworld-fixed-work-v1/README.md)
+
 Run the complete gate in a checkout with full Git history using one standard-library command:
 
 ```sh
@@ -61,7 +63,7 @@ The following table records checks for the frozen publication. The dates, Python
 - Final PDF SHA-256: `4d29fead79bf244b57198abc3d9c04af1f338a85d546c5b0dbd1d9a19e4479d1`.
 - Original Stage 3 reproducibility ZIP SHA-256: `ea86bad26a721ea751a2a2a4d0b3c812eda89ecb06dcb6c00bb8f5ec83587c5c`. The original ZIP is not redistributed because it contains raw assets/logs and machine-specific provenance.
 
-## Scope that was not rerun
+## Scope of the original October 2026 publication checks
 
 No controlled planning or native environment study was rerun. No paid inference, model training, checkpoint acquisition or new action-ranking experiment occurred. The proposed fixed-state/rollout-order experiment remains future work.
 
