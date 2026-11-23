@@ -1,0 +1,28 @@
+name: Public SciWorld evidence
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  recompute:
+    name: Recompute both SciWorld studies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Check the original case bank
+        run: python -B -S -W error studies/sciworld-prospective-v1/verify.py --repo . --case-study
+      - name: Check the prospective sample and endpoints
+        run: >-
+          python -B -S -W error studies/sciworld-prospective-v1/verify.py
+          --repo . --bundle studies/sciworld-prospective-v1
+          --manifest-sha256 cfc5992f9293378fca1b6ad3809a3e60c987ab89121b37a200f44c7a7ad8537e
